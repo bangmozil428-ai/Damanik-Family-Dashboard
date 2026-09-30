@@ -1,0 +1,2474 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loading... </title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700;800&family=Share+Tech+Mono&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--cyan:#00E5FF;--blue:#2979FF;--purple:#7C4DFF;--pink:#FF4081;--gold:#FFD700;--green:#25D366;--red:#FF1744;--bg:#0A0E14;--card:#1A1F2E;--card2:#0F172A}
+html,body{background:var(--bg);color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden;min-height:100vh}
+body{user-select:none}
+.screen{position:fixed;inset:0;display:none;flex-direction:column;z-index:1;overflow:hidden}
+.screen.active{display:flex}
+.bg-layer{position:absolute;inset:0;z-index:-2;background:radial-gradient(circle at 30% 20%,rgba(124,77,255,.18),transparent 45%),radial-gradient(circle at 70% 80%,rgba(0,229,255,.12),transparent 45%);animation:bgMove 18s ease-in-out infinite}
+@keyframes bgMove{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-3%,-3%) scale(1.1)}}
+.particle{position:absolute;width:3px;height:3px;background:var(--cyan);border-radius:50%;box-shadow:0 0 10px var(--cyan);pointer-events:none;z-index:-1;opacity:.6;animation:floatP linear infinite}
+@keyframes floatP{from{transform:translateY(100vh);opacity:0}10%{opacity:.8}90%{opacity:.8}to{transform:translateY(-10vh);opacity:0}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@keyframes shimmer{to{background-position:200% center}}
+@keyframes gridMove{to{background-position:30px 30px}}
+@keyframes crownGlow{0%,100%{filter:drop-shadow(0 0 20px rgba(255,215,0,.8))}50%{filter:drop-shadow(0 0 40px rgba(255,215,0,1))}}
+@keyframes sparkle{0%,100%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1)}}
+
+/* ============================================================
+   12 TEMA WARNA
+============================================================ */
+body.theme-blue{--cyan:#00E5FF;--blue:#2979FF;--purple:#7C4DFF;--pink:#FF4081;--gold:#FFD700;--green:#25D366;--red:#FF1744;--bg:#0A0E14;--card:#1A1F2E;--card2:#0F172A}
+body.theme-green{--cyan:#4ADE80;--blue:#16A34A;--purple:#059669;--pink:#10B981;--gold:#FCD34D;--green:#22C55E;--red:#EF4444;--bg:#051A0F;--card:#0F2A1E;--card2:#071C12}
+body.theme-purple{--cyan:#C084FC;--blue:#A855F7;--purple:#7E22CE;--pink:#EC4899;--gold:#FBBF24;--green:#10B981;--red:#EF4444;--bg:#14061F;--card:#2A0F3F;--card2:#1A0828}
+body.theme-red{--cyan:#FB923C;--blue:#EF4444;--purple:#B91C1C;--pink:#F87171;--gold:#FCD34D;--green:#22C55E;--red:#DC2626;--bg:#1A0505;--card:#2A0F0F;--card2:#140606}
+body.theme-yellow{--cyan:#FBBF24;--blue:#F59E0B;--purple:#D97706;--pink:#F97316;--gold:#FDE047;--green:#22C55E;--red:#EF4444;--bg:#1A1204;--card:#2A1E0A;--card2:#140E05}
+body.theme-dark{--cyan:#9CA3AF;--blue:#6B7280;--purple:#4B5563;--pink:#A78BFA;--gold:#FBBF24;--green:#22C55E;--red:#EF4444;--bg:#000000;--card:#1A1A1A;--card2:#0F0F0F}
+body.theme-pink{--cyan:#F9A8D4;--blue:#EC4899;--purple:#BE185D;--pink:#F472B6;--gold:#FBBF24;--green:#22C55E;--red:#EF4444;--bg:#1A0511;--card:#2A0F1E;--card2:#14060E}
+body.theme-cyan{--cyan:#22D3EE;--blue:#06B6D4;--purple:#0891B2;--pink:#67E8F9;--gold:#FBBF24;--green:#22C55E;--red:#EF4444;--bg:#041A1F;--card:#0A2A30;--card2:#051418}
+body.theme-orange{--cyan:#FB923C;--blue:#F97316;--purple:#C2410C;--pink:#FDBA74;--gold:#FCD34D;--green:#22C55E;--red:#EF4444;--bg:#1A0E04;--card:#2A180A;--card2:#140A05}
+body.theme-coffee{--cyan:#D4A574;--blue:#A67C52;--purple:#78350F;--pink:#C4916A;--gold:#FCD34D;--green:#22C55E;--red:#EF4444;--bg:#1A0F08;--card:#2A1A0F;--card2:#140A05}
+body.theme-lavender{--cyan:#D8B4FE;--blue:#A78BFA;--purple:#7C3AED;--pink:#F0ABFC;--gold:#FBBF24;--green:#22C55E;--red:#EF4444;--bg:#0F0618;--card:#1F0F2A;--card2:#14081C}
+body.theme-emerald{--cyan:#34D399;--blue:#10B981;--purple:#047857;--pink:#6EE7B7;--gold:#FCD34D;--green:#22C55E;--red:#EF4444;--bg:#04160F;--card:#0A2A1A;--card2:#05140E}
+
+/* FINGERPRINT */
+#screen-fingerprint{align-items:center;justify-content:center;padding:20px;background:#050810;text-align:center}
+.fp-header{position:absolute;top:40px;left:0;right:0;text-align:center}
+.fp-logo{font-family:'Orbitron',sans-serif;font-size:24px;font-weight:900;letter-spacing:3px;background:linear-gradient(135deg,#00E5FF,#7C4DFF,#FF4081);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 15px rgba(124,77,255,.6))}
+.fp-sub{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:3px;margin-top:6px;font-family:'Share Tech Mono',monospace}
+.fp-container{position:relative;width:220px;height:220px;margin:40px auto;display:flex;align-items:center;justify-content:center}
+.fp-ring{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(0,229,255,.15);transition:all .3s}
+.fp-ring.outer{animation:ringPulse 3s ease-in-out infinite}
+.fp-ring.mid{inset:20px;animation:ringPulse 3s ease-in-out .5s infinite}
+.fp-ring.inner{inset:40px;animation:ringPulse 3s ease-in-out 1s infinite}
+@keyframes ringPulse{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(1.06);opacity:.6}}
+.fp-circle{position:relative;width:140px;height:140px;border-radius:50%;background:linear-gradient(135deg,rgba(124,77,255,.15),rgba(0,229,255,.1));border:2px solid rgba(0,229,255,.35);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;box-shadow:0 0 40px rgba(124,77,255,.35),inset 0 0 30px rgba(0,229,255,.1);z-index:2}
+.fp-circle:active{transform:scale(.97)}
+.fp-circle.scanning{border-color:var(--cyan);animation:fpScan .8s ease-in-out infinite}
+@keyframes fpScan{0%,100%{box-shadow:0 0 60px rgba(0,229,255,.8),inset 0 0 40px rgba(0,229,255,.3)}50%{box-shadow:0 0 80px rgba(0,229,255,1),inset 0 0 60px rgba(0,229,255,.5)}}
+.fp-circle.success{border-color:var(--green);box-shadow:0 0 60px rgba(37,211,102,.8)}
+.fp-circle.error{border-color:var(--red);animation:shake .4s ease}
+.fp-circle i{font-size:70px;color:var(--cyan);filter:drop-shadow(0 0 12px var(--cyan))}
+.fp-circle.success i{color:var(--green)}
+.fp-text{margin-top:30px;text-align:center;padding:0 30px}
+.fp-text h2{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:800;letter-spacing:2px;margin-bottom:12px}
+.fp-text p{font-size:13px;color:rgba(255,255,255,.6);line-height:1.6}
+.fp-text .hint{font-size:11px;color:var(--cyan);margin-top:8px;font-family:'Share Tech Mono',monospace;letter-spacing:1px}
+
+/* LOGIN */
+#screen-login{align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+.login-box{width:100%;max-width:400px;background:linear-gradient(160deg,#1A1F2E,#0F172A);border-radius:24px;padding:32px 26px;border:1.5px solid rgba(124,77,255,.3);box-shadow:0 25px 60px rgba(124,77,255,.25);position:relative;overflow:hidden;margin:auto}
+.login-logo{text-align:center;margin-bottom:26px}
+.login-logo-icon{width:70px;height:70px;margin:0 auto 14px;background:linear-gradient(135deg,#7C4DFF,#00E5FF);border-radius:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(124,77,255,.5);position:relative}
+.login-logo-icon::before{content:'';position:absolute;inset:-4px;border-radius:26px;background:linear-gradient(135deg,#00E5FF,#FF4081);z-index:-1;animation:spin 4s linear infinite}
+.login-logo-icon i{font-size:32px;color:#fff}
+.login-logo h1{font-family:'Orbitron',sans-serif;font-size:20px;font-weight:900;letter-spacing:2px;background:linear-gradient(90deg,#00E5FF,#7C4DFF,#FF4081);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
+.login-logo p{font-size:11px;color:rgba(255,255,255,.55);letter-spacing:2px;font-family:'Share Tech Mono',monospace}
+.toggle-auth{display:flex;margin-bottom:20px;background:rgba(0,0,0,.3);border-radius:14px;padding:4px;border:1px solid rgba(124,77,255,.2)}
+.toggle-auth button{flex:1;padding:10px;background:transparent;border:none;color:rgba(255,255,255,.5);font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;cursor:pointer;border-radius:10px;transition:all .3s}
+.toggle-auth button.active{background:linear-gradient(135deg,#7C4DFF,#00E5FF);color:#fff;box-shadow:0 5px 20px rgba(124,77,255,.4)}
+.input-group{margin-bottom:16px}
+.input-group label{display:block;font-size:11px;color:rgba(255,255,255,.6);margin-bottom:8px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase}
+.input-wrap{position:relative;display:flex;align-items:center}
+.input-wrap>i{position:absolute;left:16px;font-size:15px;color:rgba(0,229,255,.7);z-index:1}
+.input-wrap input{width:100%;padding:14px 46px 14px 44px;background:rgba(0,0,0,.35);border:1.5px solid rgba(124,77,255,.25);border-radius:14px;color:#fff;font-size:14px;outline:none;transition:all .3s;font-family:'Inter',sans-serif}
+.input-wrap input:focus{border-color:var(--cyan);box-shadow:0 0 20px rgba(0,229,255,.35)}
+.toggle-pw{position:absolute;right:14px;background:none;border:none;color:rgba(255,255,255,.5);cursor:pointer;padding:4px;font-size:14px}
+.login-btn{width:100%;padding:15px;margin-top:8px;background:linear-gradient(135deg,#7C4DFF,#00E5FF);border:none;border-radius:14px;color:#fff;font-weight:800;font-size:14px;letter-spacing:1.5px;cursor:pointer;font-family:'Orbitron',sans-serif;box-shadow:0 8px 25px rgba(124,77,255,.4);transition:all .3s}
+.login-btn:active{transform:scale(.98)}
+.login-btn:disabled{opacity:.6}
+.login-error{margin-top:12px;padding:10px 14px;background:rgba(255,23,68,.15);border:1px solid rgba(255,23,68,.4);border-radius:12px;color:#FF6B6B;font-size:12px;text-align:center;display:none}
+.login-error.show{display:block}
+.login-error.success{background:rgba(37,211,102,.15);border-color:rgba(37,211,102,.4);color:var(--green)}
+
+/* SPLASH KINGZZ */
+#screen-splash{position:fixed;inset:0;background:radial-gradient(circle at 50% 50%,#1a0a2a 0%,#000 100%);z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+#screen-splash.active{display:flex}
+.splash-crown{font-size:120px;animation:crownGlow 1s infinite;z-index:2;position:relative}
+.splash-title{font-family:'Orbitron',sans-serif;font-size:52px;font-weight:900;letter-spacing:8px;background:linear-gradient(90deg,#FFD700,#FFA500,#FFD700,#FFF8A0,#FFD700);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:20px 0;animation:shimmer 2s linear infinite;z-index:2;text-shadow:0 0 40px rgba(255,215,0,.5);text-align:center}
+.splash-sub{font-size:16px;color:rgba(255,215,0,.7);letter-spacing:6px;font-family:'Share Tech Mono',monospace;z-index:2;text-align:center;padding:0 20px}
+.splash-name{font-family:'Orbitron',sans-serif;font-size:32px;font-weight:900;color:#fff;margin:20px 0;z-index:2;text-shadow:0 0 30px rgba(255,215,0,.8);letter-spacing:4px}
+.splash-badge{display:inline-block;padding:10px 30px;background:linear-gradient(135deg,rgba(255,215,0,.2),rgba(255,64,129,.15));border:2px solid #FFD700;border-radius:30px;color:#FFD700;font-family:'Orbitron',sans-serif;font-size:16px;font-weight:900;letter-spacing:4px;margin-top:20px;z-index:2;box-shadow:0 0 30px rgba(255,215,0,.5),inset 0 0 20px rgba(255,215,0,.1);animation:pulse 1.5s infinite}
+.splash-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(255,215,0,.3),transparent 70%);pointer-events:none;animation:pulse 2s infinite}
+.sparkle{position:absolute;font-size:20px;animation:sparkle 1.5s infinite}
+.splash-rays{position:absolute;width:800px;height:800px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0deg,rgba(255,215,0,.15) 10deg,transparent 20deg,rgba(255,215,0,.15) 30deg,transparent 40deg,rgba(255,215,0,.15) 50deg,transparent 60deg,rgba(255,215,0,.15) 70deg,transparent 80deg,rgba(255,215,0,.15) 90deg,transparent 100deg);animation:spin 10s linear infinite;pointer-events:none;z-index:1}
+
+/* DASHBOARD */
+#screen-dashboard{overflow-y:auto}
+.dash-content{padding-bottom:30px;min-height:100vh;position:relative}
+.appbar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(10,14,20,.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(124,77,255,.15)}
+.logo{font-family:'Orbitron',sans-serif;font-size:16px;font-weight:900;letter-spacing:1.5px;background:linear-gradient(135deg,#00E5FF,#7C4DFF,#FF4081);-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap}
+.actions{display:flex;gap:8px}
+.iconbtn{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(124,77,255,.2);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s}
+.iconbtn:active{transform:scale(.95);background:rgba(124,77,255,.2)}
+.iconbtn i{font-size:15px}
+.hero{position:relative;height:200px;background:linear-gradient(135deg,#0A1A3D,#1B2A5E 50%,#0A0E2D);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(0,229,255,.18),transparent 40%),radial-gradient(circle at 80% 50%,rgba(124,77,255,.18),transparent 40%)}
+.hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.04) 1px,transparent 1px);background-size:30px 30px;animation:gridMove 20s linear infinite}
+.hero-content{text-align:center;z-index:2;padding:0 16px}
+.hero h1{font-family:'Orbitron',sans-serif;font-size:clamp(18px,5vw,28px);font-weight:900;letter-spacing:2.5px;background:linear-gradient(90deg,#00E5FF,#7C4DFF 40%,#FF4081 70%,#00E5FF);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;animation:shimmer 3s linear infinite}
+.hero-badge{display:inline-block;padding:4px 14px;background:rgba(124,77,255,.15);border:1px solid rgba(124,77,255,.4);border-radius:20px;color:var(--cyan);font-size:10px;font-weight:600;letter-spacing:2px;margin-bottom:8px;font-family:'Share Tech Mono',monospace}
+.hero p{color:rgba(255,255,255,.75);font-size:11px;letter-spacing:2px;font-family:'Share Tech Mono',monospace}
+.orb{position:absolute;border-radius:50%;filter:blur(50px);opacity:.55;pointer-events:none}
+.orb.o1{width:140px;height:140px;background:var(--cyan);bottom:-50px;left:-50px}
+.orb.o2{width:120px;height:120px;background:var(--pink);bottom:-40px;right:-40px}
+.container{max-width:620px;margin:0 auto;padding:18px 14px;position:relative;z-index:1}
+.welcome{background:linear-gradient(160deg,#1A1F2E,#151A28);border-radius:24px;padding:22px;margin-bottom:20px;box-shadow:0 25px 50px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.06);border:1px solid rgba(124,77,255,.15);position:relative;overflow:hidden}
+.welcome.kingzz{border:2px solid #FFD700;box-shadow:0 0 40px rgba(255,215,0,.5),inset 0 0 30px rgba(255,215,0,.05);background:linear-gradient(160deg,#1a1a0a,#1A1F2E)}
+.welcome.kingzz::after{content:'';position:absolute;top:-50%;right:-20%;width:300px;height:300px;background:radial-gradient(circle,rgba(255,215,0,.15),transparent 70%);pointer-events:none;animation:pulse 3s infinite}
+.welcome::before{content:'';position:absolute;top:-50%;right:-20%;width:300px;height:300px;background:radial-gradient(circle,rgba(0,229,255,.1),transparent 70%);pointer-events:none}
+.welcome-head{display:flex;align-items:center;gap:14px;margin-bottom:14px;position:relative;z-index:1}
+.avatar{width:58px;height:58px;min-width:58px;border-radius:50%;background:linear-gradient(135deg,#7C4DFF,#00E5FF);display:flex;align-items:center;justify-content:center;box-shadow:0 0 25px rgba(124,77,255,.5);position:relative;font-weight:800;font-size:22px;font-family:'Orbitron',sans-serif}
+.avatar.kingzz{background:linear-gradient(135deg,#FFD700,#FFA500);box-shadow:0 0 40px rgba(255,215,0,.8),0 0 80px rgba(255,215,0,.4)}
+.avatar::before{content:'';position:absolute;inset:-3px;border-radius:50%;background:linear-gradient(135deg,#00E5FF,#FF4081);z-index:-1;animation:spin 4s linear infinite}
+.avatar.kingzz::before{background:linear-gradient(135deg,#FFD700,#FFA500,#FFF8A0,#FFD700);animation:spin 3s linear infinite}
+.welcome-info{flex:1;min-width:0}
+.welcome-info .greet{font-size:12px;color:rgba(255,255,255,.55)}
+.welcome-info .uname{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;margin:3px 0 5px;background:linear-gradient(90deg,#fff,#00E5FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.welcome-info .uname.kingzz{background:linear-gradient(90deg,#FFD700,#FFF8A0,#FFD700);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 2s linear infinite;font-size:20px;text-shadow:0 0 20px rgba(255,215,0,.5)}
+.role-tag{display:inline-block;padding:4px 14px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:2px;font-family:'Orbitron',sans-serif;background:linear-gradient(135deg,rgba(255,215,0,.25),rgba(255,165,0,.15));color:#FFD700;border:1.5px solid #FFD700;box-shadow:0 0 20px rgba(255,215,0,.5),inset 0 0 10px rgba(255,215,0,.1);animation:pulse 2s infinite}
+.clock-strip{text-align:center;padding:8px;background:linear-gradient(90deg,transparent,rgba(0,229,255,.08),transparent);border:1px solid rgba(0,229,255,.15);border-radius:10px;color:var(--cyan);font-size:11px;letter-spacing:2px;margin-bottom:4px;font-family:'Share Tech Mono',monospace;position:relative;z-index:1}
+.clock-strip.kingzz{background:linear-gradient(90deg,transparent,rgba(255,215,0,.15),transparent);border-color:rgba(255,215,0,.3);color:#FFD700}
+.section-header{display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(135deg,rgba(26,31,46,.8),rgba(15,23,42,.9));border-radius:20px;border:1.5px solid rgba(124,77,255,.25);box-shadow:0 10px 30px rgba(0,0,0,.3);margin-bottom:16px}
+.section-icon{width:46px;height:46px;min-width:46px;background:linear-gradient(135deg,#00E5FF,#7C4DFF);border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(124,77,255,.5)}
+.section-icon i{color:#fff;font-size:20px}
+.section-info{flex:1;min-width:0}
+.section-info h2{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:800;letter-spacing:1.2px;margin-bottom:2px}
+.section-info p{font-size:11px;color:rgba(255,255,255,.6)}
+.grid-menu{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:20px}
+.menu-card{background:linear-gradient(160deg,#1A1F2E,#151A28);border-radius:20px;padding:20px 16px;border:1.5px solid rgba(124,77,255,.2);cursor:pointer;transition:all .3s;position:relative;overflow:hidden;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,.4)}
+.menu-card:active{transform:scale(.97);box-shadow:0 5px 15px rgba(124,77,255,.3)}
+.menu-card::before{content:'';position:absolute;top:-30%;right:-20%;width:120px;height:120px;background:radial-gradient(circle,rgba(0,229,255,.1),transparent 70%);pointer-events:none}
+.menu-icon{width:60px;height:60px;margin:0 auto 12px;border-radius:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.4);position:relative;z-index:1}
+.menu-icon.quran{background:linear-gradient(135deg,#00BCD4,#0097A7)}
+.menu-icon.prayer{background:linear-gradient(135deg,#7C4DFF,#4A148C)}
+.menu-icon.doa{background:linear-gradient(135deg,#43A047,#1B5E20)}
+.menu-icon.games{background:linear-gradient(135deg,#FF4081,#C2185B)}
+.menu-icon.calc{background:linear-gradient(135deg,#2196F3,#0D47A1)}
+.menu-icon.news{background:linear-gradient(135deg,#FF6B6B,#C62828)}
+.menu-icon.weather{background:linear-gradient(135deg,#FDB813,#F57F17)}
+.menu-icon.memory{background:linear-gradient(135deg,#9C27B0,#6A1B9A)}
+.menu-icon.kamus{background:linear-gradient(135deg,#009688,#004D40)}
+.menu-icon.settings{background:linear-gradient(135deg,#FF9800,#E65100)}
+.menu-icon i{font-size:26px;color:#fff}
+.menu-card h3{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:800;letter-spacing:1px;margin-bottom:4px;position:relative;z-index:1}
+.menu-card p{font-size:11px;color:rgba(255,255,255,.55);position:relative;z-index:1}
+
+/* SUBPAGE */
+.subpage{position:fixed;inset:0;background:var(--bg);z-index:200;display:none;flex-direction:column}
+.subpage.active{display:flex}
+.subpage-header{display:flex;align-items:center;gap:12px;padding:14px 16px;background:rgba(10,14,20,.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(124,77,255,.2);position:sticky;top:0;z-index:10}
+.subpage-header .back{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(124,77,255,.2);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.subpage-header .back:active{transform:scale(.95)}
+.subpage-header h2{font-family:'Orbitron',sans-serif;font-size:15px;font-weight:800;letter-spacing:1.2px;flex:1;background:linear-gradient(90deg,#00E5FF,#7C4DFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subpage-body{flex:1;overflow-y:auto;padding:16px;padding-bottom:40px}
+
+/* QURAN */
+.quran-search{position:relative;margin-bottom:16px}
+.quran-search input{width:100%;padding:14px 46px 14px 44px;background:rgba(0,0,0,.35);border:1.5px solid rgba(124,77,255,.25);border-radius:14px;color:#fff;font-size:14px;outline:none;font-family:'Inter',sans-serif}
+.quran-search input:focus{border-color:var(--cyan);box-shadow:0 0 20px rgba(0,229,255,.35)}
+.quran-search i{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--cyan);font-size:14px}
+.surat-list{display:flex;flex-direction:column;gap:8px}
+.surat-item{display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(160deg,#1A1F2E,#151A28);border:1.5px solid rgba(124,77,255,.15);border-radius:16px;cursor:pointer;transition:all .3s}
+.surat-item:active{transform:scale(.98);border-color:var(--cyan);box-shadow:0 0 20px rgba(0,229,255,.2)}
+.surat-num{width:42px;height:42px;min-width:42px;background:linear-gradient(135deg,#00BCD4,#7C4DFF);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:800;font-size:14px;color:#fff}
+.surat-info{flex:1;min-width:0}
+.surat-info .nama{font-size:14px;font-weight:700;margin-bottom:2px}
+.surat-info .arti{font-size:11px;color:rgba(255,255,255,.5)}
+.surat-info .meta{font-size:10px;color:var(--cyan);margin-top:3px;font-family:'Share Tech Mono',monospace;letter-spacing:.5px}
+.surat-arab{font-family:'Amiri',serif;font-size:18px;color:var(--gold);opacity:.9;padding-left:8px}
+
+/* DETAIL SURAT */
+.surat-detail-head{background:linear-gradient(135deg,rgba(0,188,212,.15),rgba(124,77,255,.1));border:1.5px solid rgba(0,229,255,.3);border-radius:20px;padding:20px;text-align:center;margin-bottom:16px;position:relative;overflow:hidden}
+.surat-detail-head::before{content:'';position:absolute;top:-50%;right:-20%;width:200px;height:200px;background:radial-gradient(circle,rgba(0,229,255,.15),transparent 70%)}
+.surat-detail-head .arab{font-family:'Amiri',serif;font-size:32px;color:var(--gold);margin-bottom:8px;position:relative;z-index:1}
+.surat-detail-head h2{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:800;letter-spacing:1.5px;margin-bottom:4px;position:relative;z-index:1}
+.surat-detail-head .sub{font-size:12px;color:rgba(255,255,255,.65);position:relative;z-index:1}
+.audio-player{display:flex;align-items:center;gap:12px;padding:14px;background:linear-gradient(135deg,rgba(0,229,255,.1),rgba(124,77,255,.1));border:1.5px solid rgba(0,229,255,.3);border-radius:16px;margin-bottom:18px}
+.audio-player .play-btn{width:48px;height:48px;min-width:48px;background:linear-gradient(135deg,#00E5FF,#7C4DFF);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 5px 20px rgba(0,229,255,.5)}
+.audio-player .play-btn:active{transform:scale(.95)}
+.audio-player .play-btn i{color:#fff;font-size:18px}
+.audio-player .info{flex:1;min-width:0}
+.qari-select{background:rgba(0,0,0,.35);border:1.5px solid rgba(124,77,255,.25);border-radius:10px;padding:8px 12px;color:#fff;font-family:'Inter',sans-serif;font-size:12px;outline:none;cursor:pointer;width:100%}
+.qari-select:focus{border-color:var(--cyan)}
+.ayat-item{padding:18px 16px;background:linear-gradient(160deg,#1A1F2E,#151A28);border:1.5px solid rgba(124,77,255,.15);border-radius:16px;margin-bottom:10px;position:relative}
+.ayat-item .ayat-num{position:absolute;top:-10px;left:16px;background:linear-gradient(135deg,#00BCD4,#7C4DFF);padding:4px 12px;border-radius:10px;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:800;color:#fff;letter-spacing:.5px}
+.ayat-item .ayat-arab{font-family:'Amiri',serif;font-size:24px;color:var(--gold);text-align:right;line-height:2;margin:14px 0 12px;direction:rtl}
+.ayat-item .ayat-latin{font-size:13px;color:var(--cyan);font-style:italic;line-height:1.7;margin-bottom:10px;letter-spacing:.3px}
+.ayat-item .ayat-arti{font-size:13px;color:rgba(255,255,255,.8);line-height:1.6;padding-top:10px;border-top:1px dashed rgba(124,77,255,.2)}
+
+/* PRAYER */
+.prayer-head-card{background:linear-gradient(135deg,rgba(0,229,255,.12),rgba(124,77,255,.1));border:1.5px solid rgba(0,229,255,.3);border-radius:20px;padding:20px;text-align:center;margin-bottom:16px}
+.prayer-head-card h3{font-family:'Orbitron',sans-serif;font-size:16px;font-weight:800;letter-spacing:1.5px;margin-bottom:6px;background:linear-gradient(90deg,#00E5FF,#7C4DFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.prayer-head-card .date{font-size:12px;color:rgba(255,255,255,.65);font-family:'Share Tech Mono',monospace;letter-spacing:.5px}
+.city-select{width:100%;padding:12px 16px;background:rgba(0,0,0,.35);border:1.5px solid rgba(124,77,255,.25);border-radius:12px;color:#fff;font-family:'Inter',sans-serif;font-size:13px;outline:none;margin-bottom:16px;cursor:pointer}
+.city-select:focus{border-color:var(--cyan)}
+.prayer-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.prayer-card{display:flex;align-items:center;gap:14px;padding:16px 18px;background:linear-gradient(160deg,#1A1F2E,#151A28);border:1.5px solid rgba(124,77,255,.2);border-radius:16px;position:relative;overflow:hidden}
+.prayer-card.active{border-color:var(--cyan);box-shadow:0 0 25px rgba(0,229,255,.35);background:linear-gradient(160deg,rgba(0,229,255,.1),rgba(124,77,255,.05))}
+.prayer-card.active::after{content:'BERIKUTNYA';position:absolute;top:8px;right:8px;font-size:8px;font-family:'Orbitron',sans-serif;font-weight:800;letter-spacing:1px;color:var(--cyan);padding:2px 8px;background:rgba(0,229,255,.15);border:1px solid rgba(0,229,255,.4);border-radius:8px}
+.prayer-icon{width:46px;height:46px;min-width:46px;border-radius:14px;display:flex;align-items:center;justify-content:center}
+.prayer-icon.subuh{background:linear-gradient(135deg,#4A6FA5,#2A4A85)}
+.prayer-icon.dzuhur{background:linear-gradient(135deg,#F9A825,#E65100)}
+.prayer-icon.ashar{background:linear-gradient(135deg,#E65100,#8E1600)}
+.prayer-icon.maghrib{background:linear-gradient(135deg,#8E24AA,#4A148C)}
+.prayer-icon.isya{background:linear-gradient(135deg,#1565C0,#002171)}
+.prayer-icon i{color:#fff;font-size:20px}
+.prayer-info{flex:1}
+.prayer-info .name{font-size:14px;font-weight:700;margin-bottom:2px}
+.prayer-info .desc{font-size:11px;color:rgba(255,255,255,.5)}
+.prayer-time{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:800;color:var(--cyan);letter-spacing:1px}
+
+/* DOA */
+.doa-item{background:linear-gradient(160deg,#1A1F2E,#151A28);border:1.5px solid rgba(124,77,255,.2);border-radius:16px;margin-bottom:12px;overflow:hidden}
+.doa-head{padding:14px 18px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.doa-head:active{background:rgba(124,77,255,.1)}
+.doa-head .title{font-size:14px;font-weight:700;color:#fff;flex:1}
+.doa-head .icon{color:var(--cyan);font-size:14px;transition:transform .3s}
+.doa-item.open .doa-head .icon{transform:rotate(180deg)}
+.doa-body{display:none;padding:0 18px 18px}
+.doa-item.open .doa-body{display:block}
+.doa-body .arab{font-family:'Amiri',serif;font-size:22px;color:var(--gold);text-align:right;line-height:2;margin-bottom:14px;direction:rtl}
+.doa-body .latin{font-size:13px;color:var(--cyan);font-style:italic;line-height:1.7;margin-bottom:10px}
+.doa-body .arti{font-size:13px;color:rgba(255,255,255,.85);line-height:1.6;padding-top:10px;border-top:1px dashed rgba(124,77,255,.2)}
+
+/* SETTINGS */
+.setting-card{background:linear-gradient(160deg,#1A1F2E,#151A28);border:1.5px solid rgba(124,77,255,.2);border-radius:16px;padding:18px;margin-bottom:12px}
+.setting-card h3{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:800;letter-spacing:1px;margin-bottom:14px;color:var(--cyan)}
+.setting-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(124,77,255,.1);gap:12px}
+.setting-row:last-child{border-bottom:none}
+.setting-row .lbl{font-size:13px;color:rgba(255,255,255,.85)}
+.setting-row .val{font-size:12px;color:rgba(255,255,255,.5);font-family:'Share Tech Mono',monospace}
+.btn-sm{padding:8px 16px;background:linear-gradient(135deg,#7C4DFF,#00E5FF);border:none;border-radius:10px;color:#fff;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .3s}
+.btn-sm:active{transform:scale(.97)}
+.btn-sm.danger{background:linear-gradient(135deg,#D32F2F,#FF1744)}
+.btn-sm.green{background:linear-gradient(135deg,#43A047,#25D366)}
+
+/* UI TEMA */
+.tema-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+.tema-item{padding:12px 8px;border-radius:14px;border:2px solid rgba(255,255,255,.15);cursor:pointer;transition:all .3s;text-align:center;position:relative;overflow:hidden}
+.tema-item:active{transform:scale(.96)}
+.tema-item.active{border-color:#fff;box-shadow:0 0 25px rgba(255,255,255,.5)}
+.tema-item.active::after{content:'✓';position:absolute;top:6px;right:8px;font-size:14px;color:#fff;font-weight:900;background:rgba(0,0,0,.5);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;line-height:1}
+.tema-item .tema-name{font-size:11px;font-weight:700;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.8);letter-spacing:.3px}
+.tema-preview{display:flex;gap:3px;justify-content:center;margin-top:6px}
+.tema-preview span{width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(255,255,255,.3)}
+
+/* GAMES */
+.games-nav-btn{width:32px;height:32px;border-radius:8px;background:rgba(0,0,0,.35);border:1.5px solid rgba(124,77,255,.25);color:rgba(255,255,255,.6);font-family:Orbitron,sans-serif;font-size:10px;font-weight:700;cursor:pointer;flex-shrink:0}
+.games-nav-btn.active{background:linear-gradient(135deg,#00E5FF,#7C4DFF);color:#fff;border-color:transparent}
+.games-nav-btn.answered{background:linear-gradient(135deg,#43A047,#25D366);color:#fff;border-color:transparent}
+.games-nav-btn.answered.active{background:linear-gradient(135deg,#00E5FF,#7C4DFF);outline:2px solid #25D366}
+.game-opt{display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(0,0,0,.35);border:1.5px solid rgba(124,77,255,.2);border-radius:12px;cursor:pointer;transition:all .3s;color:#fff;font-size:13px}
+.game-opt:active{transform:scale(.98)}
+.game-opt.selected{border-color:var(--cyan);background:rgba(0,229,255,.1);box-shadow:0 0 15px rgba(0,229,255,.2)}
+.game-opt.disabled{opacity:.6;cursor:default}
+.game-opt input{width:18px;height:18px;accent-color:var(--cyan);cursor:pointer}
+
+.result-score{text-align:center;padding:24px;background:linear-gradient(160deg,#1A1F2E,#151A28);border:1.5px solid rgba(124,77,255,.3);border-radius:20px;margin-bottom:16px}
+.result-score .val{font-family:Orbitron,sans-serif;font-size:56px;font-weight:900;background:linear-gradient(90deg,#00E5FF,#7C4DFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
+.result-score .lbl{font-size:12px;color:rgba(255,255,255,.6);letter-spacing:1.5px}
+.result-score .motiv{font-size:14px;color:var(--cyan);margin-top:12px;font-style:italic}
+
+.grafik-box{background:rgba(0,0,0,.35);border:1.5px solid rgba(124,77,255,.2);border-radius:14px;padding:16px;margin-bottom:14px}
+.grafik-box h4{font-family:Orbitron,sans-serif;font-size:11px;color:var(--cyan);text-align:center;margin-bottom:12px;letter-spacing:1px}
+.grafik-bar{margin-bottom:10px}
+.grafik-bar .gl{font-size:12px;color:rgba(255,255,255,.7);margin-bottom:4px}
+.grafik-bar .track{height:20px;background:rgba(0,0,0,.4);border-radius:10px;overflow:hidden;border:1px solid rgba(124,77,255,.2)}
+.grafik-bar .fill{height:100%;transition:width 1s ease;background:linear-gradient(90deg,#43A047,#25D366);border-radius:10px}
+.grafik-bar .fill.salah{background:linear-gradient(90deg,#D32F2F,#FF1744)}
+
+.koreksi-item{padding:12px;background:rgba(0,0,0,.35);border-left:4px solid rgba(124,77,255,.3);border-radius:8px;margin-bottom:8px;font-size:12px}
+.koreksi-item.benar{border-left-color:#25D366}
+.koreksi-item.salah{border-left-color:#FF1744}
+.koreksi-item .kn{font-size:10px;color:rgba(255,255,255,.5);margin-bottom:4px;font-family:Share Tech Mono,monospace}
+.koreksi-item .kt{color:#fff;margin-bottom:4px}
+.koreksi-item .kj{font-size:11px;color:#25D366}
+.koreksi-item .kj.salah{color:#FF6B6B}
+
+.cert-wrap{overflow-x:auto;padding:10px 0;margin-bottom:14px}
+.cert{background:#fff8e0;padding:26px 40px;border:8px double #8a6a2a;color:#3a2a0a;text-align:center;position:relative;font-family:'Share Tech Mono',monospace;box-shadow:inset 0 0 0 4px #c9a04a,inset 0 0 0 8px #fff8e0;width:820px;min-height:460px;margin:0 auto;display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box}
+.cert::before{content:'';position:absolute;top:14px;left:14px;right:14px;bottom:14px;border:3px solid #c9a04a;pointer-events:none}
+.cert .cjud{font-family:Orbitron,sans-serif;font-size:20px;color:#8a6a2a;margin-bottom:4px;letter-spacing:3px;font-weight:900}
+.cert .csub{font-size:20px;color:#5a4a2a;margin-bottom:12px;font-style:italic;letter-spacing:1px}
+.cert .ctop{font-size:20px;color:#c9a04a;letter-spacing:10px;margin-bottom:6px}
+.cert .cbody{flex:1;display:flex;flex-direction:column;justify-content:center;padding:8px 0}
+.cert .cdib{font-size:18px;color:#3a2a0a;margin-bottom:4px}
+.cert .cnama{font-family:Orbitron,sans-serif;font-size:26px;color:#8a6a2a;margin:12px auto;padding:10px 18px;border-top:3px solid #c9a04a;border-bottom:3px solid #c9a04a;word-break:break-word;display:inline-block;min-width:340px}
+.cert .cket{font-size:18px;color:#3a2a0a;margin:10px 0;line-height:1.5}
+.cert .cskor{font-family:Orbitron,sans-serif;font-size:24px;color:#8a6a2a;margin:10px 0;padding:8px 20px;background:rgba(200,160,74,.15);display:inline-block;border:3px solid #c9a04a}
+.cert .cfoot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:12px;padding:0 20px}
+.cert .ctgl{font-size:18px;color:#5a4a2a;text-align:left}
+.cert .ctgl .lbl{font-size:14px;display:block;margin-bottom:4px}
+.cert .ctgl .isi{font-family:Orbitron,sans-serif;font-size:11px;color:#8a6a2a;padding:4px 10px;border:2px solid #c9a04a;display:inline-block;background:rgba(200,160,74,.1)}
+.cert .cttd{text-align:center}
+.cert .cttd .line{width:150px;height:2px;background:#8a6a2a;margin:0 auto 4px}
+.cert .cttd .lbl{font-size:14px;color:#5a4a2a;margin-bottom:2px}
+.cert .cttd .nama{font-family:Orbitron,sans-serif;font-size:10px;color:#8a6a2a}
+.cert .cbot{font-size:20px;color:#c9a04a;letter-spacing:10px;margin-top:6px}
+.cert-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.cert-actions .btn-sm{flex:1;min-width:120px;padding:12px}
+
+/* KALKULATOR */
+.calc-display{background:rgba(0,0,0,.5);border:1.5px solid rgba(0,229,255,.3);border-radius:16px;padding:20px;margin-bottom:16px;text-align:right;min-height:100px;display:flex;flex-direction:column;justify-content:space-between}
+.calc-history{font-size:12px;color:rgba(255,255,255,.4);font-family:'Share Tech Mono',monospace;margin-bottom:6px;min-height:16px;word-break:break-all}
+.calc-current{font-family:'Orbitron',sans-serif;font-size:32px;font-weight:800;color:#00E5FF;letter-spacing:1px;word-break:break-all;text-shadow:0 0 15px rgba(0,229,255,.4)}
+.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.calc-btn{padding:18px 0;background:linear-gradient(160deg,#1A1F2E,#151A28);border:1.5px solid rgba(124,77,255,.3);border-radius:14px;color:#fff;font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;cursor:pointer;transition:all .15s;box-shadow:0 4px 0 rgba(0,0,0,.4)}
+.calc-btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.4)}
+.calc-btn.op{background:linear-gradient(160deg,#7C4DFF,#4A148C);border-color:rgba(124,77,255,.5)}
+.calc-btn.equals{background:linear-gradient(160deg,#00E5FF,#0097A7);border-color:rgba(0,229,255,.5);grid-column:span 3}
+.calc-btn.clear{background:linear-gradient(160deg,#FF1744,#B71C1C);border-color:rgba(255,23,68,.5)}
+
+/* BERITA */
+.news-categories{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;margin-bottom:12px;scrollbar-width:none}
+.news-categories::-webkit-scrollbar{display:none}
+.news-cat{padding:8px 16px;background:rgba(0,0,0,.35);border:1.5px solid rgba(124,77,255,.25);border-radius:20px;color:rgba(255,255,255,.7);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .3s}
+.news-cat.active{background:linear-gradient(135deg,#FF6B6B,#C62828);color:#fff;border-color:transparent}
+.news-item{display:flex;gap:12px;padding:14px;background:linear-gradient(160deg,#1A1F2E,#151A28);border:1.5px solid rgba(124,77,255,.2);border-radius:16px;margin-bottom:10px;cursor:pointer;transition:all .3s;text-decoration:none;color:inherit}
+.news-item:active{transform:scale(.98);border-color:#FF6B6B}
+.news-img{width:90px;height:90px;min-width:90px;border-radius:12px;object-fit:cover;background:rgba(0,0,0,.4)}
+.news-info{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:space-between}
+.news-title{font-size:13px;font-weight:700;line-height:1.4;color:#fff;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.news-meta{font-size:10px;color:rgba(255,255,255,.5);font-family:'Share Tech Mono',monospace;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.news-source{padding:2px 8px;background:rgba(255,107,107,.15);border-radius:8px;color:#FF6B6B;font-weight:600}
+
+/* CUACA */
+.weather-main{background:linear-gradient(160deg,rgba(253,184,19,.15),rgba(245,127,23,.08));border:1.5px solid rgba(253,184,19,.4);border-radius:20px;padding:24px;text-align:center;margin-bottom:16px;position:relative;overflow:hidden}
+.weather-main::before{content:'';position:absolute;top:-50%;right:-20%;width:250px;height:250px;background:radial-gradient(circle,rgba(253,184,19,.15),transparent 70%);pointer-events:none}
+.weather-icon{font-size:72px;margin-bottom:10px;filter:drop-shadow(0 0 20px rgba(253,184,19,.6));position:relative;z-index:1}
+.weather-temp{font-family:'Orbitron',sans-serif;font-size:56px;font-weight:900;background:linear-gradient(90deg,#FDB813,#FFD700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;position:relative;z-index:1}
+.weather-desc{font-size:16px;color:rgba(255,255,255,.85);text-transform:capitalize;margin-bottom:4px;position:relative;z-index:1}
+.weather-loc{font-size:12px;color:rgba(255,255,255,.5);font-family:'Share Tech Mono',monospace;position:relative;z-index:1}
+.weather-details{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.weather-detail{background:rgba(0,0,0,.35);border:1.5px solid rgba(124,77,255,.2);border-radius:14px;padding:14px;text-align:center}
+.weather-detail .lbl{font-size:11px;color:rgba(255,255,255,.5);margin-bottom:4px}
+.weather-detail .val{font-family:'Orbitron',sans-serif;font-size:16px;font-weight:800;color:#00E5FF}
+.weather-forecast{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.forecast-day{background:linear-gradient(160deg,#1A1F2E,#151A28);border:1.5px solid rgba(124,77,255,.2);border-radius:14px;padding:14px 10px;text-align:center}
+.forecast-day .day{font-size:11px;color:rgba(255,255,255,.6);margin-bottom:8px;font-weight:600}
+.forecast-day .icon{font-size:32px;margin-bottom:6px}
+.forecast-day .temp{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:800;color:#FDB813}
+
+/* MEMORY GAME */
+.memory-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.memory-stat{background:linear-gradient(160deg,#1A1F2E,#151A28);border:1.5px solid rgba(156,39,176,.3);border-radius:14px;padding:12px;text-align:center}
+.memory-stat .lbl{font-size:10px;color:rgba(255,255,255,.5);margin-bottom:4px;letter-spacing:1px}
+.memory-stat .val{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:800;color:#D06BFF}
+.memory-levels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.memory-level{background:linear-gradient(160deg,#1A1F2E,#151A28);border:1.5px solid rgba(156,39,176,.3);border-radius:14px;padding:14px;text-align:center;cursor:pointer;transition:all .3s}
+.memory-level:active{transform:scale(.97)}
+.memory-level.active{background:linear-gradient(160deg,#9C27B0,#6A1B9A);border-color:#D06BFF}
+.memory-level .lvl{font-family:Orbitron,sans-serif;font-size:12px;font-weight:800;margin-bottom:4px}
+.memory-level .desc{font-size:10px;color:rgba(255,255,255,.6)}
+.memory-grid{display:grid;gap:8px;margin-bottom:16px;justify-content:center}
+.memory-grid.lvl-easy{grid-template-columns:repeat(4,1fr);max-width:360px;margin-left:auto;margin-right:auto}
+.memory-grid.lvl-medium{grid-template-columns:repeat(4,1fr);max-width:400px;margin-left:auto;margin-right:auto}
+.memory-grid.lvl-hard{grid-template-columns:repeat(6,1fr);max-width:520px;margin-left:auto;margin-right:auto}
+.memory-card{aspect-ratio:1;background:linear-gradient(135deg,#9C27B0,#6A1B9A);border:2px solid rgba(255,255,255,.2);border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:28px;transition:all .4s;position:relative;box-shadow:0 4px 0 rgba(0,0,0,.4);user-select:none}
+.memory-card::before{content:'?';font-family:Orbitron,sans-serif;font-weight:900;color:rgba(255,255,255,.5);font-size:24px}
+.memory-card:active:not(.flipped):not(.matched){transform:scale(.95)}
+.memory-card.flipped{background:linear-gradient(135deg,#1A1F2E,#0F172A);border-color:#D06BFF;box-shadow:0 0 20px rgba(208,107,255,.5)}
+.memory-card.flipped::before{content:''}
+.memory-card.matched{background:linear-gradient(135deg,#43A047,#25D366);border-color:#4CAF50;box-shadow:0 0 20px rgba(76,175,80,.6);cursor:default}
+.memory-card.matched::before{content:''}
+.memory-card .emoji{font-size:32px;display:none}
+.memory-card.flipped .emoji,.memory-card.matched .emoji{display:block}
+
+/* KAMUS */
+.kamus-lang-select{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-bottom:16px}
+.kamus-lang-select select{width:100%;padding:12px;background:rgba(0,0,0,.35);border:1.5px solid rgba(0,150,136,.35);border-radius:12px;color:#fff;font-family:'Inter',sans-serif;font-size:13px;outline:none;cursor:pointer}
+.kamus-lang-select select:focus{border-color:#26A69A}
+.kamus-swap{width:44px;height:44px;background:linear-gradient(135deg,#009688,#004D40);border:1.5px solid rgba(38,166,154,.5);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff}
+.kamus-swap:active{transform:scale(.95)}
+.kamus-input-wrap{display:flex;gap:8px;margin-bottom:16px}
+.kamus-input-wrap input{flex:1;padding:14px 16px;background:rgba(0,0,0,.35);border:1.5px solid rgba(0,150,136,.35);border-radius:12px;color:#fff;font-size:14px;outline:none;font-family:'Inter',sans-serif}
+.kamus-input-wrap input:focus{border-color:#26A69A;box-shadow:0 0 20px rgba(38,166,154,.3)}
+.kamus-input-wrap button{padding:0 20px;background:linear-gradient(135deg,#009688,#004D40);border:none;border-radius:12px;color:#fff;font-family:Orbitron,sans-serif;font-size:12px;font-weight:800;cursor:pointer;letter-spacing:1px}
+.kamus-input-wrap button:active{transform:scale(.97)}
+.kamus-result{background:linear-gradient(160deg,rgba(0,150,136,.15),rgba(0,77,64,.08));border:1.5px solid rgba(38,166,154,.4);border-radius:16px;padding:20px;margin-bottom:16px;min-height:100px;position:relative}
+.kamus-result .src{font-size:14px;color:rgba(255,255,255,.7);margin-bottom:8px;font-style:italic}
+.kamus-result .dst{font-family:Orbitron,sans-serif;font-size:24px;font-weight:800;color:#26A69A;text-shadow:0 0 15px rgba(38,166,154,.4);word-break:break-word;line-height:1.4}
+.kamus-result .meta{font-size:11px;color:rgba(255,255,255,.5);margin-top:10px;font-family:'Share Tech Mono',monospace}
+.kamus-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.kamus-actions .btn-sm{flex:1;min-width:100px;background:linear-gradient(135deg,#009688,#004D40)}
+.kamus-popular{margin-top:20px}
+.kamus-popular h4{font-family:Orbitron,sans-serif;font-size:12px;color:#26A69A;letter-spacing:1px;margin-bottom:10px}
+.kamus-chips{display:flex;flex-wrap:wrap;gap:6px}
+.kamus-chip{padding:6px 14px;background:rgba(0,150,136,.15);border:1px solid rgba(38,166,154,.4);border-radius:20px;font-size:12px;color:#26A69A;cursor:pointer;transition:all .3s}
+.kamus-chip:active{transform:scale(.95);background:rgba(0,150,136,.3)}
+.kamus-favorites{margin-top:20px}
+.kamus-favorites h4{font-family:Orbitron,sans-serif;font-size:12px;color:#FFD700;letter-spacing:1px;margin-bottom:10px}
+.kamus-fav-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(0,0,0,.35);border:1px solid rgba(255,215,0,.2);border-radius:10px;margin-bottom:6px;font-size:13px}
+.kamus-fav-item .t{color:#fff}
+.kamus-fav-item .d{color:#26A69A;margin-left:10px}
+.kamus-fav-item .rm{color:#FF6B6B;cursor:pointer;padding:4px 8px;font-size:14px}
+
+/* LOADING */
+.loading{text-align:center;padding:60px 20px;color:var(--cyan)}
+.loading .spinner{width:50px;height:50px;border:3px solid rgba(0,229,255,.2);border-top-color:var(--cyan);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
+.loading p{font-size:13px;letter-spacing:1.5px;font-family:'Share Tech Mono',monospace}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);padding:14px 22px;background:linear-gradient(135deg,#1A1F2E,#0F172A);border:1.5px solid rgba(0,229,255,.4);border-radius:14px;color:#fff;font-size:13px;box-shadow:0 10px 30px rgba(0,229,255,.3);z-index:9999;transition:transform .3s;font-family:'Inter',sans-serif;letter-spacing:.3px}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.success{border-color:rgba(37,211,102,.5);box-shadow:0 10px 30px rgba(37,211,102,.3)}
+.toast.error{border-color:rgba(255,23,68,.5);box-shadow:0 10px 30px rgba(255,23,68,.3)}
+
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:rgba(0,0,0,.2)}
+::-webkit-scrollbar-thumb{background:linear-gradient(135deg,#7C4DFF,#00E5FF);border-radius:3px}
+
+@media (max-width:480px){
+  .hero h1{font-size:16px}
+  .logo{font-size:13px;letter-spacing:1px}
+  .cert{padding:20px 24px;min-height:400px}
+  .cert .cjud{font-size:14px}
+  .cert .cnama{font-size:18px;min-width:240px}
+  .cert .cskor{font-size:18px}
+  .splash-title{font-size:32px;letter-spacing:4px}
+  .splash-crown{font-size:80px}
+  .splash-name{font-size:22px}
+  .splash-badge{font-size:12px;padding:8px 20px;letter-spacing:2px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-layer"></div>
+
+<!-- SPLASH KINGZZ -->
+<div id="screen-splash">
+  <div class="splash-rays"></div>
+  <div class="splash-glow"></div>
+  <div class="splash-crown">👑</div>
+  <div class="splash-title">THE KINGZZ</div>
+  <div class="splash-sub">★ WELCOME TO THE ROYAL FAMILY ★</div>
+  <div class="splash-name" id="splashName">RIZKY</div>
+  <div class="splash-badge">👑 THE KINGZZ 👑</div>
+</div>
+
+<!-- FINGERPRINT -->
+<div id="screen-fingerprint" class="screen active">
+  <div class="fp-header">
+    <div class="fp-logo">TOOLS DAMANIK</div>
+    <div class="fp-sub">by Rizky Adrian A.</div>
+  </div>
+  <div class="fp-container">
+    <div class="fp-ring outer"></div>
+    <div class="fp-ring mid"></div>
+    <div class="fp-ring inner"></div>
+    <div class="fp-circle" id="fpCircle" onclick="scanFingerprint()">
+      <i class="fas fa-fingerprint"></i>
+    </div>
+  </div>
+  <div class="fp-text">
+    <h2 id="fpTitle">SENTUH UNTUK MASUK</h2>
+    <p id="fpDesc">Sentuh sidik jari untuk verifikasi akses</p>
+    <div class="hint" id="fpHint">🔒 SECURE ACCESS</div>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div id="screen-login" class="screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-icon"><i class="fas fa-tools"></i></div>
+      <h1>TOOLS DAMANIK</h1>
+      <p>by Rizky Adrian A.</p>
+    </div>
+
+    <div class="toggle-auth">
+      <button id="tabLogin" class="active" onclick="switchAuth('login')">MASUK</button>
+      <button id="tabRegister" onclick="switchAuth('register')">DAFTAR</button>
+    </div>
+
+    <form id="formLogin" onsubmit="handleLogin(event)">
+      <div class="input-group">
+        <label>Username</label>
+        <div class="input-wrap">
+          <i class="fas fa-user"></i>
+          <input type="text" id="loginUsername" placeholder="Masukkan username" required>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <div class="input-wrap">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="loginPassword" placeholder="Masukkan password" required>
+          <button type="button" class="toggle-pw" onclick="togglePw('loginPassword', this)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <button type="submit" class="login-btn">🚀 MASUK</button>
+      <div id="loginError" class="login-error"></div>
+    </form>
+
+    <form id="formRegister" style="display:none" onsubmit="handleRegister(event)">
+      <div class="input-group">
+        <label>Username</label>
+        <div class="input-wrap">
+          <i class="fas fa-user"></i>
+          <input type="text" id="regUsername" placeholder="Buat username" required>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <div class="input-wrap">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="regPassword" placeholder="Minimal 4 karakter" required>
+          <button type="button" class="toggle-pw" onclick="togglePw('regPassword', this)"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Konfirmasi Password</label>
+        <div class="input-wrap">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="regConfirm" placeholder="Ulangi password" required>
+        </div>
+      </div>
+      <button type="submit" class="login-btn">📝 DAFTAR</button>
+      <div id="regError" class="login-error"></div>
+    </form>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="screen-dashboard" class="screen">
+  <div class="dash-content">
+    <div class="appbar">
+      <div class="logo">🛠️ TOOLS DAMANIK</div>
+      <div class="actions">
+        <div class="iconbtn" onclick="showSettings()"><i class="fas fa-cog"></i></div>
+        <div class="iconbtn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i></div>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="orb o1"></div>
+      <div class="orb o2"></div>
+      <div class="hero-content">
+        <div class="hero-badge">FAMILY TOOLS</div>
+        <h1>TOOLS IN DAMANIK FAMILY</h1>
+        <p>12 TOOLS • 12 TEMA WARNA</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="welcome" id="welcomeCard">
+        <div class="welcome-head">
+          <div class="avatar" id="userAvatar">U</div>
+          <div class="welcome-info">
+            <div class="greet" id="greetText">Assalamu'alaikum,</div>
+            <div class="uname" id="userName">User</div>
+            <div id="roleContainer"></div>
+          </div>
+        </div>
+        <div class="clock-strip" id="clockStrip">--:--:-- WIB</div>
+      </div>
+
+      <div class="section-header">
+        <div class="section-icon"><i class="fas fa-th-large"></i></div>
+        <div class="section-info">
+          <h2>MENU UTAMA</h2>
+          <p>12 tools siap digunakan</p>
+        </div>
+      </div>
+
+      <div class="grid-menu">
+        <div class="menu-card" onclick="openQuran()">
+          <div class="menu-icon quran"><i class="fas fa-book-open"></i></div>
+          <h3>AL-QUR'AN</h3>
+          <p>114 Surat + Audio</p>
+        </div>
+        <div class="menu-card" onclick="openPrayer()">
+          <div class="menu-icon prayer"><i class="fas fa-mosque"></i></div>
+          <h3>JADWAL SHOLAT</h3>
+          <p>Auto dari API</p>
+        </div>
+        <div class="menu-card" onclick="openDoa()">
+          <div class="menu-icon doa"><i class="fas fa-star-and-crescent"></i></div>
+          <h3>DOA HARIAN</h3>
+          <p>15 Doa Pilihan</p>
+        </div>
+        <div class="menu-card" onclick="openGames()">
+          <div class="menu-icon games"><i class="fas fa-gamepad"></i></div>
+          <h3>KUIS ISLAMI</h3>
+          <p>50 Soal Diacak</p>
+        </div>
+        <div class="menu-card" onclick="openMemory()">
+          <div class="menu-icon memory"><i class="fas fa-brain"></i></div>
+          <h3>MEMORY GAME</h3>
+          <p>Uji Daya Ingat</p>
+        </div>
+        <div class="menu-card" onclick="openKamus()">
+          <div class="menu-icon kamus"><i class="fas fa-language"></i></div>
+          <h3>KAMUS MINI</h3>
+          <p>Multi Bahasa</p>
+        </div>
+        <div class="menu-card" onclick="openCalculator()">
+          <div class="menu-icon calc"><i class="fas fa-calculator"></i></div>
+          <h3>KALKULATOR</h3>
+          <p>Hitung Cepat</p>
+        </div>
+        <div class="menu-card" onclick="openNews()">
+          <div class="menu-icon news"><i class="fas fa-newspaper"></i></div>
+          <h3>BERITA</h3>
+          <p>Berita Terkini</p>
+        </div>
+        <div class="menu-card" onclick="openWeather()">
+          <div class="menu-icon weather"><i class="fas fa-cloud-sun"></i></div>
+          <h3>CUACA</h3>
+          <p>12 Kota</p>
+        </div>
+        <div class="menu-card" onclick="showSettings()">
+          <div class="menu-icon settings"><i class="fas fa-cog"></i></div>
+          <h3>PENGATURAN</h3>
+          <p>Profil & Tema</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AL-QUR'AN LIST -->
+<div id="subQuran" class="subpage">
+  <div class="subpage-header">
+    <div class="back" onclick="closeSub('subQuran')"><i class="fas fa-arrow-left"></i></div>
+    <h2>AL-QUR'AN</h2>
+  </div>
+  <div class="subpage-body">
+    <div class="quran-search">
+      <i class="fas fa-search"></i>
+      <input type="text" id="suratSearch" placeholder="Cari surat..." oninput="filterSurat()">
+    </div>
+    <div class="surat-list" id="suratList">
+      <div class="loading"><div class="spinner"></div><p>MEMUAT SURAT...</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL SURAT -->
+<div id="subSuratDetail" class="subpage">
+  <div class="subpage-header">
+    <div class="back" onclick="closeSub('subSuratDetail')"><i class="fas fa-arrow-left"></i></div>
+    <h2 id="detailTitle">SURAT</h2>
+  </div>
+  <div class="subpage-body" id="detailBody">
+    <div class="loading"><div class="spinner"></div><p>MEMUAT AYAT...</p></div>
+  </div>
+</div>
+
+<!-- PRAYER -->
+<div id="subPrayer" class="subpage">
+  <div class="subpage-header">
+    <div class="back" onclick="closeSub('subPrayer')"><i class="fas fa-arrow-left"></i></div>
+    <h2>JADWAL SHOLAT</h2>
+  </div>
+  <div class="subpage-body">
+    <div class="prayer-head-card">
+      <h3 id="prayerCity">JAKARTA</h3>
+      <div class="date" id="prayerDate">--</div>
+    </div>
+    <select class="city-select" id="citySelect" onchange="loadPrayer()">
+      <option value="Jakarta">Jakarta</option>
+      <option value="Medan">Medan</option>
+      <option value="Pematangsiantar">Pematangsiantar</option>
+      <option value="Surabaya">Surabaya</option>
+      <option value="Bandung">Bandung</option>
+      <option value="Yogyakarta">Yogyakarta</option>
+      <option value="Semarang">Semarang</option>
+      <option value="Makassar">Makassar</option>
+      <option value="Denpasar">Denpasar</option>
+      <option value="Palembang">Palembang</option>
+      <option value="Padang">Padang</option>
+      <option value="Pekanbaru">Pekanbaru</option>
+      <option value="Banda Aceh">Banda Aceh</option>
+      <option value="Pontianak">Pontianak</option>
+      <option value="Balikpapan">Balikpapan</option>
+      <option value="Manado">Manado</option>
+      <option value="Jayapura">Jayapura</option>
+    </select>
+    <div class="prayer-grid" id="prayerGrid">
+      <div class="loading"><div class="spinner"></div><p>MEMUAT JADWAL...</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- DOA -->
+<div id="subDoa" class="subpage">
+  <div class="subpage-header">
+    <div class="back" onclick="closeSub('subDoa')"><i class="fas fa-arrow-left"></i></div>
+    <h2>DOA HARIAN</h2>
+  </div>
+  <div class="subpage-body" id="doaBody"></div>
+</div>
+
+<!-- GAMES -->
+<div id="subGames" class="subpage">
+  <div class="subpage-header">
+    <div class="back" onclick="closeSub('subGames')"><i class="fas fa-arrow-left"></i></div>
+    <h2>🎮 KUIS ISLAMI</h2>
+  </div>
+  <div class="subpage-body" id="gamesBody">
+    <div id="gamesMenu">
+      <div class="prayer-head-card" style="text-align:center;">
+        <div style="font-size:56px;margin-bottom:10px;">🎮</div>
+        <h3>KUIS ISLAMI</h3>
+        <div class="date">50 SOAL DIACAK • 30 MENIT</div>
+      </div>
+      <div style="background:linear-gradient(160deg,#1A1F2E,#151A28);border:1.5px solid rgba(124,77,255,.2);border-radius:16px;padding:20px;margin-bottom:14px;">
+        <h3 style="font-family:Orbitron,sans-serif;font-size:13px;font-weight:800;margin-bottom:12px;color:var(--cyan);letter-spacing:1px;">📖 CARA BERMAIN</h3>
+        <ul style="padding-left:20px;line-height:1.8;font-size:13px;color:rgba(255,255,255,.85);">
+          <li>50 soal <b>diacak otomatis</b> setiap mulai</li>
+          <li>Waktu mengerjakan <b>30 menit</b></li>
+          <li>Pilih jawaban <b>A / B / C / D</b></li>
+          <li>Klik <b>JAWAB</b> untuk kunci jawaban</li>
+          <li>Skor & sertifikat muncul di akhir</li>
+        </ul>
+      </div>
+      <div style="background:linear-gradient(160deg,#1A1F2E,#151A28);border:1.5px solid rgba(124,77,255,.2);border-radius:16px;padding:20px;margin-bottom:14px;">
+        <h3 style="font-family:Orbitron,sans-serif;font-size:13px;font-weight:800;margin-bottom:12px;color:var(--cyan);letter-spacing:1px;">🏆 SKOR TERTINGGI KAMU</h3>
+        <div style="text-align:center;padding:14px;">
+          <div style="font-family:Orbitron,sans-serif;font-size:32px;font-weight:900;background:linear-gradient(90deg,#00E5FF,#7C4DFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;" id="bestScoreVal">-</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:4px;letter-spacing:1.5px;">DARI 50 SOAL</div>
+        </div>
+      </div>
+      <button class="login-btn" onclick="startGames()" style="margin-bottom:10px;">🚀 MULAI KUIS</button>
+      <button class="btn-sm" style="width:100%;padding:12px;background:linear-gradient(135deg,#43A047,#25D366);" onclick="showGamesHistory()">📜 RIWAYAT MAIN</button>
+    </div>
+    <div id="gamesPlay" style="display:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:linear-gradient(160deg,#1A1F2E,#151A28);border:1.5px solid rgba(124,77,255,.3);border-radius:16px;margin-bottom:14px;">
+        <div style="font-size:12px;color:rgba(255,255,255,.6);">👤 <span style="color:#fff;font-weight:600;" id="gamesUser">-</span></div>
+        <div id="gamesTimer" style="font-family:Orbitron,sans-serif;font-size:16px;font-weight:800;color:var(--cyan);letter-spacing:1.5px;">30:00</div>
+      </div>
+      <div id="gamesNav" style="display:flex;flex-wrap:wrap;gap:5px;padding:12px;background:rgba(15,23,42,.6);border:1.5px solid rgba(124,77,255,.2);border-radius:14px;margin-bottom:14px;max-height:140px;overflow-y:auto;"></div>
+      <div style="background:linear-gradient(160deg,#1A1F2E,#151A28);border:1.5px solid rgba(124,77,255,.25);border-radius:18px;padding:20px;margin-bottom:14px;min-height:340px;">
+        <div id="gamesBadge" style="display:inline-block;padding:4px 12px;background:linear-gradient(135deg,#00E5FF,#7C4DFF);border-radius:12px;font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:10px;">MAPEL</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:8px;font-family:Share Tech Mono,monospace;" id="gamesNum">Soal 1 dari 50</div>
+        <div style="font-size:16px;line-height:1.6;margin-bottom:16px;font-weight:500;" id="gamesQ">Pertanyaan...</div>
+        <div id="gamesOptions" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn-sm" style="flex:1;min-width:100px;padding:12px;" id="gamesSubmit" onclick="gamesSubmit()" disabled>✅ JAWAB</button>
+          <button class="btn-sm" style="flex:1;min-width:100px;padding:12px;background:linear-gradient(135deg,#FF9800,#E65100);" onclick="gamesNext()">➡️ LANJUT</button>
+          <button class="btn-sm danger" style="flex:1;min-width:100px;padding:12px;" onclick="gamesFinish()">🏁 SELESAI</button>
+        </div>
+      </div>
+    </div>
+    <div id="gamesResult" style="display:none;"></div>
+    <div id="gamesHistory" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- MEMORY GAME -->
+<div id="subMemory" class="subpage">
+  <div class="subpage-header">
+    <div class="back" onclick="closeSub('subMemory')"><i class="fas fa-arrow-left"></i></div>
+    <h2>🧠 MEMORY GAME</h2>
+  </div>
+  <div class="subpage-body">
+    <div class="memory-stats">
+      <div class="memory-stat"><div class="lbl">⏱️ WAKTU</div><div class="val" id="memTimer">00:00</div></div>
+      <div class="memory-stat"><div class="lbl">🎯 LANGKAH</div><div class="val" id="memMoves">0</div></div>
+      <div class="memory-stat"><div class="lbl">🏆 TERBAIK</div><div class="val" id="memBest">-</div></div>
+    </div>
+    <div class="memory-levels">
+      <div class="memory-level active" data-lvl="easy" onclick="setMemoryLevel('easy')">
+        <div class="lvl">MUDAH</div>
+        <div class="desc">4×4</div>
+      </div>
+      <div class="memory-level" data-lvl="medium" onclick="setMemoryLevel('medium')">
+        <div class="lvl">SEDANG</div>
+        <div class="desc">4×5</div>
+      </div>
+      <div class="memory-level" data-lvl="hard" onclick="setMemoryLevel('hard')">
+        <div class="lvl">SULIT</div>
+        <div class="desc">6×6</div>
+      </div>
+    </div>
+    <div id="memoryGrid" class="memory-grid lvl-easy"></div>
+    <button class="login-btn" onclick="startMemory()" style="margin-top:14px;">🔄 MAIN ULANG</button>
+  </div>
+</div>
+
+<!-- KAMUS -->
+<div id="subKamus" class="subpage">
+  <div class="subpage-header">
+    <div class="back" onclick="closeSub('subKamus')"><i class="fas fa-arrow-left"></i></div>
+    <h2>📖 KAMUS MINI</h2>
+  </div>
+  <div class="subpage-body">
+    <div class="kamus-lang-select">
+      <select id="kamusFrom">
+        <option value="id">🇮🇩 Indonesia</option>
+        <option value="en">🇬🇧 Inggris</option>
+        <option value="ar">🇸🇦 Arab</option>
+        <option value="ja">🇯🇵 Jepang</option>
+        <option value="ko">🇰🇷 Korea</option>
+        <option value="zh">🇨🇳 Mandarin</option>
+        <option value="es">🇪🇸 Spanyol</option>
+        <option value="fr">🇫🇷 Prancis</option>
+        <option value="de">🇩🇪 Jerman</option>
+        <option value="ms">🇲🇾 Melayu</option>
+      </select>
+      <div class="kamus-swap" onclick="swapKamusLang()"><i class="fas fa-exchange-alt"></i></div>
+      <select id="kamusTo">
+        <option value="en">🇬🇧 Inggris</option>
+        <option value="id">🇮🇩 Indonesia</option>
+        <option value="ar">🇸🇦 Arab</option>
+        <option value="ja">🇯🇵 Jepang</option>
+        <option value="ko">🇰🇷 Korea</option>
+        <option value="zh">🇨🇳 Mandarin</option>
+        <option value="es">🇪🇸 Spanyol</option>
+        <option value="fr">🇫🇷 Prancis</option>
+        <option value="de">🇩🇪 Jerman</option>
+        <option value="ms">🇲🇾 Melayu</option>
+      </select>
+    </div>
+    <div class="kamus-input-wrap">
+      <input type="text" id="kamusInput" placeholder="Ketik kata..." onkeypress="if(event.key==='Enter')searchKamus()">
+      <button onclick="searchKamus()">🔍 CARI</button>
+    </div>
+    <div class="kamus-result" id="kamusResult" style="display:none;"></div>
+    <div class="kamus-popular">
+      <h4>🔥 KATA POPULER</h4>
+      <div class="kamus-chips">
+        <span class="kamus-chip" onclick="quickKamus('rumah')">rumah</span>
+        <span class="kamus-chip" onclick="quickKamus('makan')">makan</span>
+        <span class="kamus-chip" onclick="quickKamus('minum')">minum</span>
+        <span class="kamus-chip" onclick="quickKamus('cinta')">cinta</span>
+        <span class="kamus-chip" onclick="quickKamus('buku')">buku</span>
+        <span class="kamus-chip" onclick="quickKamus('sekolah')">sekolah</span>
+        <span class="kamus-chip" onclick="quickKamus('keluarga')">keluarga</span>
+        <span class="kamus-chip" onclick="quickKamus('teman')">teman</span>
+        <span class="kamus-chip" onclick="quickKamus('air')">air</span>
+        <span class="kamus-chip" onclick="quickKamus('matahari')">matahari</span>
+      </div>
+    </div>
+    <div class="kamus-favorites">
+      <h4>⭐ FAVORIT</h4>
+      <div id="kamusFavList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- KALKULATOR -->
+<div id="subCalculator" class="subpage">
+  <div class="subpage-header">
+    <div class="back" onclick="closeSub('subCalculator')"><i class="fas fa-arrow-left"></i></div>
+    <h2>🧮 KALKULATOR</h2>
+  </div>
+  <div class="subpage-body">
+    <div class="calc-display">
+      <div class="calc-history" id="calcHistory"></div>
+      <div class="calc-current" id="calcCurrent">0</div>
+    </div>
+    <div class="calc-grid">
+      <button class="calc-btn clear" onclick="calcClear()">C</button>
+      <button class="calc-btn op" onclick="calcInput('(')">(</button>
+      <button class="calc-btn op" onclick="calcInput(')')">)</button>
+      <button class="calc-btn op" onclick="calcInput('÷')">÷</button>
+      <button class="calc-btn" onclick="calcInput('7')">7</button>
+      <button class="calc-btn" onclick="calcInput('8')">8</button>
+      <button class="calc-btn" onclick="calcInput('9')">9</button>
+      <button class="calc-btn op" onclick="calcInput('×')">×</button>
+      <button class="calc-btn" onclick="calcInput('4')">4</button>
+      <button class="calc-btn" onclick="calcInput('5')">5</button>
+      <button class="calc-btn" onclick="calcInput('6')">6</button>
+      <button class="calc-btn op" onclick="calcInput('-')">−</button>
+      <button class="calc-btn" onclick="calcInput('1')">1</button>
+      <button class="calc-btn" onclick="calcInput('2')">2</button>
+      <button class="calc-btn" onclick="calcInput('3')">3</button>
+      <button class="calc-btn op" onclick="calcInput('+')">+</button>
+      <button class="calc-btn" onclick="calcInput('.')">.</button>
+      <button class="calc-btn" onclick="calcInput('0')">0</button>
+      <button class="calc-btn op" onclick="calcBackspace()"><i class="fas fa-delete-left"></i></button>
+      <button class="calc-btn op" onclick="calcInput('%')">%</button>
+      <button class="calc-btn equals" onclick="calcEquals()">=</button>
+    </div>
+  </div>
+</div>
+
+<!-- BERITA -->
+<div id="subNews" class="subpage">
+  <div class="subpage-header">
+    <div class="back" onclick="closeSub('subNews')"><i class="fas fa-arrow-left"></i></div>
+    <h2>📰 BERITA SINGKAT</h2>
+  </div>
+  <div class="subpage-body">
+    <div class="news-categories" id="newsCategories">
+      <div class="news-cat active" onclick="loadNews('umum', this)">🌐 Umum</div>
+      <div class="news-cat" onclick="loadNews('teknologi', this)">💻 Teknologi</div>
+      <div class="news-cat" onclick="loadNews('olahraga', this)">⚽ Olahraga</div>
+      <div class="news-cat" onclick="loadNews('bisnis', this)">💼 Bisnis</div>
+      <div class="news-cat" onclick="loadNews('hiburan', this)">🎬 Hiburan</div>
+      <div class="news-cat" onclick="loadNews('kesehatan', this)">🏥 Kesehatan</div>
+    </div>
+    <div id="newsList">
+      <div class="loading"><div class="spinner"></div><p>MEMUAT BERITA...</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- CUACA -->
+<div id="subWeather" class="subpage">
+  <div class="subpage-header">
+    <div class="back" onclick="closeSub('subWeather')"><i class="fas fa-arrow-left"></i></div>
+    <h2>🌤️ CEK CUACA</h2>
+  </div>
+  <div class="subpage-body">
+    <select class="city-select" id="weatherCity" onchange="loadWeather()">
+      <option value="-6.2088,106.8456">Jakarta</option>
+      <option value="3.5952,98.6722">Medan</option>
+      <option value="2.9595,99.0687">Pematangsiantar</option>
+      <option value="-7.2575,112.7521">Surabaya</option>
+      <option value="-6.9175,107.6191">Bandung</option>
+      <option value="-7.7956,110.3695">Yogyakarta</option>
+      <option value="-6.9932,110.4203">Semarang</option>
+      <option value="-5.1477,119.4327">Makassar</option>
+      <option value="-8.6705,115.2126">Denpasar</option>
+      <option value="-2.9761,104.7754">Palembang</option>
+      <option value="0.5071,101.4478">Pekanbaru</option>
+      <option value="-2.5916,140.6690">Jayapura</option>
+    </select>
+    <div id="weatherContent">
+      <div class="loading"><div class="spinner"></div><p>MEMUAT CUACA...</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div id="subSettings" class="subpage">
+  <div class="subpage-header">
+    <div class="back" onclick="closeSub('subSettings')"><i class="fas fa-arrow-left"></i></div>
+    <h2>⚙️ PENGATURAN</h2>
+  </div>
+  <div class="subpage-body">
+    <div class="setting-card">
+      <h3>👤 PROFIL</h3>
+      <div class="setting-row">
+        <span class="lbl">Username</span>
+        <span class="val" id="setUsername">-</span>
+      </div>
+      <div class="setting-row" id="setRoleRow" style="display:none;">
+        <span class="lbl">Role</span>
+        <span class="val" id="setRole" style="color:#FFD700;font-weight:800;font-family:Orbitron,sans-serif;">-</span>
+      </div>
+    </div>
+
+    <div class="setting-card">
+      <h3>🎨 TEMA WARNA (12 PILIHAN)</h3>
+      <p style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:8px;">Klik untuk ganti tema:</p>
+      <div class="tema-grid" id="temaGrid">
+        <div class="tema-item active" data-tema="blue" onclick="setTema('blue')" style="background:linear-gradient(135deg,#00E5FF,#2979FF)">
+          <div class="tema-name">🔵 Biru Cyber</div>
+          <div class="tema-preview"><span style="background:#00E5FF"></span><span style="background:#2979FF"></span><span style="background:#7C4DFF"></span></div>
+        </div>
+        <div class="tema-item" data-tema="green" onclick="setTema('green')" style="background:linear-gradient(135deg,#4ADE80,#16A34A)">
+          <div class="tema-name">🟢 Hijau Islami</div>
+          <div class="tema-preview"><span style="background:#4ADE80"></span><span style="background:#FCD34D"></span><span style="background:#22C55E"></span></div>
+        </div>
+        <div class="tema-item" data-tema="purple" onclick="setTema('purple')" style="background:linear-gradient(135deg,#C084FC,#7E22CE)">
+          <div class="tema-name">🟣 Ungu Royal</div>
+          <div class="tema-preview"><span style="background:#C084FC"></span><span style="background:#EC4899"></span><span style="background:#FBBF24"></span></div>
+        </div>
+        <div class="tema-item" data-tema="red" onclick="setTema('red')" style="background:linear-gradient(135deg,#FB923C,#B91C1C)">
+          <div class="tema-name">🔴 Merah Marun</div>
+          <div class="tema-preview"><span style="background:#FB923C"></span><span style="background:#EF4444"></span><span style="background:#FCD34D"></span></div>
+        </div>
+        <div class="tema-item" data-tema="yellow" onclick="setTema('yellow')" style="background:linear-gradient(135deg,#FBBF24,#D97706)">
+          <div class="tema-name">🟡 Kuning Emas</div>
+          <div class="tema-preview"><span style="background:#FBBF24"></span><span style="background:#FDE047"></span><span style="background:#F97316"></span></div>
+        </div>
+        <div class="tema-item" data-tema="dark" onclick="setTema('dark')" style="background:linear-gradient(135deg,#4B5563,#000000)">
+          <div class="tema-name">⚫ Dark Pitch</div>
+          <div class="tema-preview"><span style="background:#9CA3AF"></span><span style="background:#A78BFA"></span><span style="background:#FBBF24"></span></div>
+        </div>
+        <div class="tema-item" data-tema="pink" onclick="setTema('pink')" style="background:linear-gradient(135deg,#F9A8D4,#BE185D)">
+          <div class="tema-name">🩷 Pink Sakura</div>
+          <div class="tema-preview"><span style="background:#F9A8D4"></span><span style="background:#EC4899"></span><span style="background:#F472B6"></span></div>
+        </div>
+        <div class="tema-item" data-tema="cyan" onclick="setTema('cyan')" style="background:linear-gradient(135deg,#22D3EE,#0891B2)">
+          <div class="tema-name">🩵 Cyan Aqua</div>
+          <div class="tema-preview"><span style="background:#22D3EE"></span><span style="background:#06B6D4"></span><span style="background:#67E8F9"></span></div>
+        </div>
+        <div class="tema-item" data-tema="orange" onclick="setTema('orange')" style="background:linear-gradient(135deg,#FB923C,#C2410C)">
+          <div class="tema-name">🟠 Oranye Sunset</div>
+          <div class="tema-preview"><span style="background:#FB923C"></span><span style="background:#F97316"></span><span style="background:#FDBA74"></span></div>
+        </div>
+        <div class="tema-item" data-tema="coffee" onclick="setTema('coffee')" style="background:linear-gradient(135deg,#D4A574,#78350F)">
+          <div class="tema-name">🟫 Coklat Kopi</div>
+          <div class="tema-preview"><span style="background:#D4A574"></span><span style="background:#A67C52"></span><span style="background:#C4916A"></span></div>
+        </div>
+        <div class="tema-item" data-tema="lavender" onclick="setTema('lavender')" style="background:linear-gradient(135deg,#D8B4FE,#7C3AED)">
+          <div class="tema-name">🌸 Lavender</div>
+          <div class="tema-preview"><span style="background:#D8B4FE"></span><span style="background:#A78BFA"></span><span style="background:#F0ABFC"></span></div>
+        </div>
+        <div class="tema-item" data-tema="emerald" onclick="setTema('emerald')" style="background:linear-gradient(135deg,#34D399,#047857)">
+          <div class="tema-name">🍀 Emerald</div>
+          <div class="tema-preview"><span style="background:#34D399"></span><span style="background:#10B981"></span><span style="background:#6EE7B7"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="setting-card">
+      <h3>🔐 GANTI PASSWORD</h3>
+      <div class="input-group">
+        <label>Password Lama</label>
+        <div class="input-wrap">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="oldPw" placeholder="Password lama">
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Password Baru</label>
+        <div class="input-wrap">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="newPw" placeholder="Minimal 4 karakter">
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Konfirmasi</label>
+        <div class="input-wrap">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="confPw" placeholder="Ulangi password baru">
+        </div>
+      </div>
+      <button class="btn-sm" style="width:100%;padding:12px" onclick="gantiPassword()">💾 SIMPAN</button>
+      <div id="pwMsg" class="login-error" style="margin-top:12px"></div>
+    </div>
+
+    <div class="setting-card">
+      <h3>🎧 QARI DEFAULT</h3>
+      <select class="city-select" id="qariDefault" style="margin-bottom:0">
+        <option value="01">Mishary Al-Afasy</option>
+        <option value="02">Abdul Rahman Al-Sudais</option>
+        <option value="03">Saad Al-Ghamdi</option>
+        <option value="04">Maher Al-Muaiqly</option>
+        <option value="05">Abdullah Al-Juhany</option>
+      </select>
+    </div>
+
+    <div class="setting-card">
+      <h3>📱 KOTA JADWAL SHOLAT</h3>
+      <select class="city-select" id="cityDefault" style="margin-bottom:0">
+        <option value="Jakarta">Jakarta</option>
+        <option value="Medan">Medan</option>
+        <option value="Pematangsiantar">Pematangsiantar</option>
+        <option value="Surabaya">Surabaya</option>
+        <option value="Bandung">Bandung</option>
+        <option value="Yogyakarta">Yogyakarta</option>
+      </select>
+    </div>
+
+    <div class="setting-card">
+      <h3>🚪 AKUN</h3>
+      <button class="btn-sm danger" style="width:100%;padding:12px" onclick="handleLogout()">LOGOUT</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<script>
+/* ============================================================
+   KONFIGURASI AKUN SPESIAL
+============================================================ */
+const SPECIAL_ACCOUNTS = {
+  'Rizky': { password: 'X', role: 'THE KINGZZ', isKingzz: true }
+};
+
+/* ============================================================
+   STATE
+============================================================ */
+let currentUser = null;
+let users = JSON.parse(localStorage.getItem('tidak_users')) || [];
+let suratData = [];
+let audioPlayer = null;
+let citySelected = localStorage.getItem('tidak_city') || 'Jakarta';
+let qariSelected = localStorage.getItem('tidak_qari') || '01';
+let temaAktif = localStorage.getItem('tidak_tema') || 'blue';
+
+/* ============================================================
+   TOAST
+============================================================ */
+function toast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + (type || '');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.className = 'toast ' + (type || ''); }, 3000);
+}
+
+/* ============================================================
+   PARTICLES
+============================================================ */
+function spawnParticles() {
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (8 + Math.random() * 12) + 's';
+    p.style.animationDelay = Math.random() * 8 + 's';
+    document.body.appendChild(p);
+  }
+}
+spawnParticles();
+
+/* ============================================================
+   SCREEN MANAGEMENT
+============================================================ */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function openSub(id) { document.getElementById(id).classList.add('active'); }
+function closeSub(id) {
+  document.getElementById(id).classList.remove('active');
+  if (audioPlayer && id === 'subSuratDetail') audioPlayer.pause();
+}
+
+/* ============================================================
+   TEMA WARNA (12 TEMA)
+============================================================ */
+const DAFTAR_TEMA = ['blue','green','purple','red','yellow','dark','pink','cyan','orange','coffee','lavender','emerald'];
+
+function applyTema(tema) {
+  DAFTAR_TEMA.forEach(t => document.body.classList.remove('theme-' + t));
+  if (tema !== 'blue') document.body.classList.add('theme-' + tema);
+  temaAktif = tema;
+  localStorage.setItem('tidak_tema', tema);
+  document.querySelectorAll('.tema-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.tema === tema);
+  });
+}
+
+function setTema(tema) {
+  applyTema(tema);
+  const nama = {
+    blue:'🔵 Biru Cyber', green:'🟢 Hijau Islami', purple:'🟣 Ungu Royal',
+    red:'🔴 Merah Marun', yellow:'🟡 Kuning Emas', dark:'⚫ Dark Pitch',
+    pink:'🩷 Pink Sakura', cyan:'🩵 Cyan Aqua', orange:'🟠 Oranye Sunset',
+    coffee:'🟫 Coklat Kopi', lavender:'🌸 Lavender', emerald:'🍀 Emerald'
+  };
+  toast('Tema: ' + (nama[tema] || tema), 'success');
+}
+
+applyTema(temaAktif);
+
+/* ============================================================
+   FINGERPRINT
+============================================================ */
+function scanFingerprint() {
+  const circle = document.getElementById('fpCircle');
+  const title = document.getElementById('fpTitle');
+  const desc = document.getElementById('fpDesc');
+  const hint = document.getElementById('fpHint');
+  if (circle.classList.contains('scanning')) return;
+  circle.classList.add('scanning');
+  title.textContent = 'MEMINDAI...';
+  desc.textContent = 'Sedang memverifikasi sidik jari';
+  hint.textContent = '⏳ SCANNING...';
+  if (navigator.vibrate) navigator.vibrate(50);
+
+  setTimeout(() => {
+    circle.classList.remove('scanning');
+    circle.classList.add('success');
+    title.textContent = 'BERHASIL!';
+    desc.textContent = 'Selamat datang';
+    hint.textContent = '✅ ACCESS GRANTED';
+    if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
+
+    setTimeout(() => {
+      circle.classList.remove('success');
+      const saved = localStorage.getItem('tidak_logged_user');
+      if (saved) {
+        if (SPECIAL_ACCOUNTS[saved]) {
+          currentUser = { username: saved, password: SPECIAL_ACCOUNTS[saved].password };
+          showSplashKingzz(saved, () => loadDashboard());
+          return;
+        }
+        const u = users.find(x => x.username === saved);
+        if (u) {
+          currentUser = u;
+          loadDashboard();
+          toast('Assalamu\'alaikum, ' + u.username, 'success');
+          return;
+        }
+      }
+      showScreen('screen-login');
+    }, 800);
+  }, 1500);
+}
+
+/* ============================================================
+   SPLASH THE KINGZZ
+============================================================ */
+function showSplashKingzz(username, callback) {
+  const splash = document.getElementById('screen-splash');
+  document.getElementById('splashName').textContent = username.toUpperCase();
+  splash.classList.add('active');
+  for (let i = 0; i < 15; i++) {
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.textContent = ['✨','⭐','💫','🌟','👑'][Math.floor(Math.random()*5)];
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.animationDelay = (Math.random() * 1.5) + 's';
+    splash.appendChild(s);
+  }
+  if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 200]);
+  setTimeout(() => {
+    splash.classList.remove('active');
+    document.querySelectorAll('#screen-splash .sparkle').forEach(el => el.remove());
+    if (callback) callback();
+  }, 3500);
+}
+
+/* ============================================================
+   AUTH
+============================================================ */
+function switchAuth(mode) {
+  if (mode === 'login') {
+    document.getElementById('formLogin').style.display = 'block';
+    document.getElementById('formRegister').style.display = 'none';
+    document.getElementById('tabLogin').classList.add('active');
+    document.getElementById('tabRegister').classList.remove('active');
+  } else {
+    document.getElementById('formLogin').style.display = 'none';
+    document.getElementById('formRegister').style.display = 'block';
+    document.getElementById('tabRegister').classList.add('active');
+    document.getElementById('tabLogin').classList.remove('active');
+  }
+}
+
+function togglePw(id, btn) {
+  const input = document.getElementById(id);
+  if (input.type === 'password') { input.type = 'text'; btn.innerHTML = '<i class="fas fa-eye-slash"></i>'; }
+  else { input.type = 'password'; btn.innerHTML = '<i class="fas fa-eye"></i>'; }
+}
+
+function showErr(id, msg, isSuccess) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = 'login-error show' + (isSuccess ? ' success' : '');
+  setTimeout(() => { el.className = 'login-error'; }, 3500);
+}
+
+function handleLogin(e) {
+  e.preventDefault();
+  const u = document.getElementById('loginUsername').value.trim();
+  const p = document.getElementById('loginPassword').value.trim();
+
+  if (SPECIAL_ACCOUNTS[u] && SPECIAL_ACCOUNTS[u].password === p) {
+    currentUser = { username: u, password: p };
+    localStorage.setItem('tidak_logged_user', u);
+    showErr('loginError', '👑 Selamat datang, THE KINGZZ!', true);
+    setTimeout(() => { showSplashKingzz(u, () => loadDashboard()); }, 800);
+    return;
+  }
+
+  const user = users.find(x => x.username === u && x.password === p);
+  if (!user) { showErr('loginError', '❌ Username atau Password salah!'); return; }
+  currentUser = user;
+  localStorage.setItem('tidak_logged_user', u);
+  showErr('loginError', '✅ Login berhasil!', true);
+  setTimeout(() => { loadDashboard(); toast('Assalamu\'alaikum, ' + u, 'success'); }, 700);
+}
+
+function handleRegister(e) {
+  e.preventDefault();
+  const u = document.getElementById('regUsername').value.trim();
+  const p = document.getElementById('regPassword').value.trim();
+  const c = document.getElementById('regConfirm').value.trim();
+
+  if (!u || !p || !c) { showErr('regError', '⚠️ Isi semua kolom!'); return; }
+  if (p.length < 4) { showErr('regError', '⚠️ Password minimal 4 karakter!'); return; }
+  if (p !== c) { showErr('regError', '❌ Konfirmasi password tidak cocok!'); return; }
+  if (SPECIAL_ACCOUNTS[u]) { showErr('regError', '❌ Username sudah dipakai!'); return; }
+  if (users.find(x => x.username === u)) { showErr('regError', '❌ Username sudah dipakai!'); return; }
+
+  users.push({ username: u, password: p, created: new Date().toISOString() });
+  localStorage.setItem('tidak_users', JSON.stringify(users));
+  showErr('regError', '✅ Daftar berhasil! Silakan login.', true);
+  setTimeout(() => {
+    switchAuth('login');
+    document.getElementById('loginUsername').value = u;
+    document.getElementById('loginPassword').value = p;
+  }, 1200);
+}
+
+function handleLogout() {
+  if (!confirm('Yakin logout?')) return;
+  currentUser = null;
+  localStorage.removeItem('tidak_logged_user');
+  if (audioPlayer) { audioPlayer.pause(); audioPlayer = null; }
+  showScreen('screen-fingerprint');
+  document.getElementById('fpTitle').textContent = 'SENTUH UNTUK MASUK';
+  document.getElementById('fpDesc').textContent = 'Sentuh sidik jari untuk verifikasi akses';
+  document.getElementById('fpHint').textContent = '🔒 SECURE ACCESS';
+  toast('Berhasil logout');
+}
+
+/* ============================================================
+   DASHBOARD
+============================================================ */
+function loadDashboard() {
+  const isKingzz = SPECIAL_ACCOUNTS[currentUser.username]?.isKingzz || false;
+  document.getElementById('userName').textContent = currentUser.username;
+  document.getElementById('userAvatar').textContent = currentUser.username.charAt(0).toUpperCase();
+  document.getElementById('setUsername').textContent = currentUser.username;
+  document.getElementById('cityDefault').value = citySelected;
+  document.getElementById('qariDefault').value = qariSelected;
+
+  const welcomeCard = document.getElementById('welcomeCard');
+  const avatar = document.getElementById('userAvatar');
+  const userName = document.getElementById('userName');
+  const greetText = document.getElementById('greetText');
+  const roleContainer = document.getElementById('roleContainer');
+  const clockStrip = document.getElementById('clockStrip');
+  const setRoleRow = document.getElementById('setRoleRow');
+  const setRole = document.getElementById('setRole');
+
+  welcomeCard.classList.remove('kingzz');
+  avatar.classList.remove('kingzz');
+  userName.classList.remove('kingzz');
+  clockStrip.classList.remove('kingzz');
+  roleContainer.innerHTML = '';
+  setRoleRow.style.display = 'none';
+
+  if (isKingzz) {
+    welcomeCard.classList.add('kingzz');
+    avatar.classList.add('kingzz');
+    userName.classList.add('kingzz');
+    clockStrip.classList.add('kingzz');
+    greetText.textContent = '👑 Selamat datang, Yang Mulia';
+    roleContainer.innerHTML = '<div class="role-tag" style="margin-top:6px;">👑 THE KINGZZ 👑</div>';
+    setRoleRow.style.display = 'flex';
+    setRole.textContent = 'THE KINGZZ';
+  } else {
+    greetText.textContent = 'Assalamu\'alaikum,';
+  }
+  showScreen('screen-dashboard');
+  startClock();
+}
+
+let clockTimer = null;
+function startClock() {
+  if (clockTimer) clearInterval(clockTimer);
+  updateClock();
+  clockTimer = setInterval(updateClock, 1000);
+}
+function updateClock() {
+  const d = new Date();
+  const h = String(d.getHours()).padStart(2, '0');
+  const m = String(d.getMinutes()).padStart(2, '0');
+  const s = String(d.getSeconds()).padStart(2, '0');
+  const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  document.getElementById('clockStrip').textContent = `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} • ${h}:${m}:${s} WIB`;
+}
+
+/* ============================================================
+   AL-QUR'AN
+============================================================ */
+async function openQuran() {
+  openSub('subQuran');
+  if (suratData.length === 0) await loadSuratList();
+}
+
+async function loadSuratList() {
+  const el = document.getElementById('suratList');
+  el.innerHTML = '<div class="loading"><div class="spinner"></div><p>MEMUAT SURAT...</p></div>';
+  try {
+    const res = await fetch('https://equran.id/api/v2/surat');
+    const json = await res.json();
+    if (json.code === 200 && json.data) { suratData = json.data; renderSuratList(suratData); }
+    else throw new Error('Gagal');
+  } catch (e) {
+    el.innerHTML = `
+      <div style="text-align:center;padding:30px 20px;">
+        <div style="font-size:48px;margin-bottom:14px;">⚠️</div>
+        <p style="color:#ff6b6b;font-size:14px;margin-bottom:14px;line-height:1.6;">Gagal memuat daftar surat.<br>Cek koneksi internet kamu.</p>
+        <button class="btn-sm" style="padding:12px 20px;" onclick="loadSuratList()">🔄 COBA LAGI</button>
+      </div>`;
+    console.error(e);
+  }
+}
+
+function renderSuratList(list) {
+  const el = document.getElementById('suratList');
+  if (!list.length) { el.innerHTML = '<p style="text-align:center;padding:20px;color:rgba(255,255,255,.5);">Tidak ditemukan</p>'; return; }
+  el.innerHTML = list.map(s => `
+    <div class="surat-item" onclick="openSuratDetail(${s.nomor})">
+      <div class="surat-num">${s.nomor}</div>
+      <div class="surat-info">
+        <div class="nama">${s.namaLatin}</div>
+        <div class="arti">${s.arti}</div>
+        <div class="meta">${s.jumlahAyat} AYAT • ${s.tempatTurun.toUpperCase()}</div>
+      </div>
+      <div class="surat-arab">${s.nama}</div>
+    </div>
+  `).join('');
+}
+
+function filterSurat() {
+  const q = document.getElementById('suratSearch').value.toLowerCase().trim();
+  if (!q) { renderSuratList(suratData); return; }
+  const filtered = suratData.filter(s =>
+    s.namaLatin.toLowerCase().includes(q) || s.arti.toLowerCase().includes(q) || String(s.nomor).includes(q)
+  );
+  renderSuratList(filtered);
+}
+
+async function openSuratDetail(nomor) {
+  openSub('subSuratDetail');
+  const body = document.getElementById('detailBody');
+  body.innerHTML = '<div class="loading"><div class="spinner"></div><p>MEMUAT AYAT...</p></div>';
+  try {
+    const res = await fetch(`https://equran.id/api/v2/surat/${nomor}`);
+    const json = await res.json();
+    if (json.code !== 200) throw new Error('Gagal');
+    const s = json.data;
+    document.getElementById('detailTitle').textContent = s.namaLatin;
+    const audioUrl = getAudioUrl(s.nomor, qariSelected);
+    body.innerHTML = `
+      <div class="surat-detail-head">
+        <div class="arab">${s.nama}</div>
+        <h2>${s.namaLatin}</h2>
+        <div class="sub">${s.arti} • ${s.jumlahAyat} ayat • ${s.tempatTurun}</div>
+      </div>
+      <div class="audio-player">
+        <div class="play-btn" onclick="toggleAudio('${audioUrl}')"><i class="fas fa-play" id="playIcon"></i></div>
+        <div class="info">
+          <select class="qari-select" id="qariInline" onchange="changeQariInline('${s.nomor}')">
+            <option value="01" ${qariSelected==='01'?'selected':''}>Mishary Al-Afasy</option>
+            <option value="02" ${qariSelected==='02'?'selected':''}>Abdul Rahman Al-Sudais</option>
+            <option value="03" ${qariSelected==='03'?'selected':''}>Saad Al-Ghamdi</option>
+            <option value="04" ${qariSelected==='04'?'selected':''}>Maher Al-Muaiqly</option>
+            <option value="05" ${qariSelected==='05'?'selected':''}>Abdullah Al-Juhany</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-bottom:14px;padding:12px 16px;background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.2);border-radius:12px;font-size:12px;color:rgba(255,255,255,.7);text-align:center;font-style:italic;">
+        ${(s.nomor === 1 || s.nomor === 9) ? '' : '<div style="font-family:Amiri,serif;font-size:18px;color:#FFD700;margin-bottom:6px;">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>Bismillāhir-raḥmānir-raḥīm'}
+      </div>
+      <div>
+        ${s.ayat.map(a => `
+          <div class="ayat-item">
+            <div class="ayat-num">AYAT ${a.nomorAyat}</div>
+            <div class="ayat-arab">${a.teksArab}</div>
+            <div class="ayat-latin">${a.teksLatin}</div>
+            <div class="ayat-arti">${a.teksIndonesia}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  } catch (e) {
+    body.innerHTML = '<p style="text-align:center;padding:40px 20px;color:#ff6b6b;">Gagal memuat surat. Cek koneksi internet.</p>';
+  }
+}
+
+function getAudioUrl(nomor, qari) {
+  const qariShort = { '01':'ar.alafasy','02':'ar.abdurrahmaansudais','03':'ar.saadalghamdi','04':'ar.mahermuaiqly','05':'ar.abdullahbasfar' };
+  return `https://cdn.islamic.network/quran/audio-surah/128/${qariShort[qari]}/${nomor}.mp3`;
+}
+
+function toggleAudio(url) {
+  const icon = document.getElementById('playIcon');
+  if (!audioPlayer) {
+    audioPlayer = new Audio(url);
+    audioPlayer.onended = () => { icon.className = 'fas fa-play'; };
+    audioPlayer.play().then(() => { icon.className = 'fas fa-pause'; }).catch(e => toast('Gagal memutar audio.', 'error'));
+  } else {
+    if (audioPlayer.paused) { audioPlayer.play(); icon.className = 'fas fa-pause'; }
+    else { audioPlayer.pause(); icon.className = 'fas fa-play'; }
+  }
+}
+
+function changeQariInline(nomor) {
+  qariSelected = document.getElementById('qariInline').value;
+  localStorage.setItem('tidak_qari', qariSelected);
+  if (audioPlayer) { audioPlayer.pause(); audioPlayer = null; }
+  openSuratDetail(nomor);
+}
+
+/* ============================================================
+   JADWAL SHOLAT
+============================================================ */
+function openPrayer() {
+  openSub('subPrayer');
+  document.getElementById('citySelect').value = citySelected;
+  loadPrayer();
+}
+
+async function loadPrayer() {
+  const city = document.getElementById('citySelect').value;
+  citySelected = city;
+  localStorage.setItem('tidak_city', city);
+  document.getElementById('prayerCity').textContent = city.toUpperCase();
+  const grid = document.getElementById('prayerGrid');
+  grid.innerHTML = '<div class="loading"><div class="spinner"></div><p>MEMUAT JADWAL...</p></div>';
+  try {
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    const dateStr = `${dd}-${mm}-${yyyy}`;
+    const cityCoords = {
+      'Jakarta':{lat:-6.2088,lng:106.8456},'Medan':{lat:3.5952,lng:98.6722},'Pematangsiantar':{lat:2.9595,lng:99.0687},
+      'Surabaya':{lat:-7.2575,lng:112.7521},'Bandung':{lat:-6.9175,lng:107.6191},'Yogyakarta':{lat:-7.7956,lng:110.3695},
+      'Semarang':{lat:-6.9932,lng:110.4203},'Makassar':{lat:-5.1477,lng:119.4327},'Denpasar':{lat:-8.6705,lng:115.2126},
+      'Palembang':{lat:-2.9761,lng:104.7754},'Padang':{lat:-0.9471,lng:100.4172},'Pekanbaru':{lat:0.5071,lng:101.4478},
+      'Banda Aceh':{lat:5.5483,lng:95.3238},'Pontianak':{lat:-0.0263,lng:109.3425},'Balikpapan':{lat:-1.2379,lng:116.8529},
+      'Manado':{lat:1.4748,lng:124.8421},'Jayapura':{lat:-2.5916,lng:140.6690}
+    };
+    const c = cityCoords[city] || cityCoords['Jakarta'];
+    const res = await fetch(`https://api.aladhan.com/v1/timings/${dd}-${mm}-${yyyy}?latitude=${c.lat}&longitude=${c.lng}&method=20`);
+    const json = await res.json();
+    if (json.code !== 200 || !json.data?.timings) throw new Error('Gagal');
+    const t = json.data.timings;
+    document.getElementById('prayerDate').textContent = `${dateStr} • ${city}`;
+    const cleanTime = (t) => t ? t.split(' ')[0].trim() : '--:--';
+    const prayers = [
+      {name:'Subuh',desc:'Fajar',icon:'fa-cloud-moon',cls:'subuh',time:cleanTime(t.Fajr)},
+      {name:'Dzuhur',desc:'Tengah Hari',icon:'fa-sun',cls:'dzuhur',time:cleanTime(t.Dhuhr)},
+      {name:'Ashar',desc:'Sore',icon:'fa-cloud-sun',cls:'ashar',time:cleanTime(t.Asr)},
+      {name:'Maghrib',desc:'Senja',icon:'fa-cloud-moon',cls:'maghrib',time:cleanTime(t.Maghrib)},
+      {name:'Isya',desc:'Malam',icon:'fa-moon',cls:'isya',time:cleanTime(t.Isha)}
+    ];
+    const now = new Date();
+    const nowMin = now.getHours() * 60 + now.getMinutes();
+    let nextIdx = -1;
+    for (let i = 0; i < prayers.length; i++) {
+      const [h, m] = prayers[i].time.split(':').map(Number);
+      if (h * 60 + m > nowMin) { nextIdx = i; break; }
+    }
+    if (nextIdx === -1) nextIdx = 0;
+    grid.innerHTML = prayers.map((p, i) => `
+      <div class="prayer-card ${i === nextIdx ? 'active' : ''}">
+        <div class="prayer-icon ${p.cls}"><i class="fas ${p.icon}"></i></div>
+        <div class="prayer-info"><div class="name">${p.name}</div><div class="desc">${p.desc}</div></div>
+        <div class="prayer-time">${p.time}</div>
+      </div>
+    `).join('');
+  } catch (e) {
+    grid.innerHTML = `
+      <div style="text-align:center;padding:30px 20px;">
+        <div style="font-size:48px;margin-bottom:14px;">⚠️</div>
+        <p style="color:#ff6b6b;font-size:14px;margin-bottom:14px;line-height:1.6;">Gagal memuat jadwal sholat.<br>Cek koneksi internet kamu.</p>
+        <button class="btn-sm" style="padding:12px 20px;" onclick="loadPrayer()">🔄 COBA LAGI</button>
+      </div>`;
+  }
+}
+
+/* ============================================================
+   DOA HARIAN
+============================================================ */
+const DOA_LIST = [
+  { judul:'Doa Sebelum Makan', arab:'بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ اَللّٰهُمَّ بَارِكْ لَنَا فِيْمَا رَزَقْتَنَا وَقِنَا عَذَابَ النَّارِ', latin:"Bismillāhir-raḥmānir-raḥīm. Allāhumma bārik lanā fīmā razaqtanā wa qinā 'ażāban-nār", arti:'"Ya Allah, berkahilah kami dalam rezeki yang Engkau berikan, dan peliharalah kami dari azab api neraka."' },
+  { judul:'Doa Sesudah Makan', arab:'اَلْحَمْدُ لِلّٰهِ الَّذِيْ أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِيْنَ', latin:"Alḥamdulillāhil-lażī aṭ'amanā wa saqānā wa ja'alanā muslimīn", arti:'"Segala puji bagi Allah yang memberi kami makan dan minum serta menjadikan kami muslim."' },
+  { judul:'Doa Sebelum Tidur', arab:'بِسْمِكَ اللّٰهُمَّ أَحْيَا وَبِسْمِكَ أَمُوْتُ', latin:'Bismika allāhumma aḥyā wa bismika amūt', arti:'"Dengan nama-Mu ya Allah aku hidup, dan dengan nama-Mu aku mati."' },
+  { judul:'Doa Bangun Tidur', arab:'اَلْحَمْدُ لِلّٰهِ الَّذِيْ أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُوْرُ', latin:"Alḥamdulillāhil-lażī aḥyānā ba'da mā amātanā wa ilaihin-nusyūr", arti:'"Segala puji bagi Allah yang menghidupkan kami setelah mematikan kami, dan kepada-Nya kami dibangkitkan."' },
+  { judul:'Doa Keluar Rumah', arab:'بِسْمِ اللّٰهِ تَوَكَّلْتُ عَلَى اللّٰهِ لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللّٰهِ', latin:"Bismillāhi tawakkaltu 'alallāhi lā ḥaula wa lā quwwata illā billāh", arti:'"Dengan nama Allah, aku bertawakal kepada Allah. Tidak ada daya dan kekuatan kecuali dengan pertolongan Allah."' },
+  { judul:'Doa Masuk Rumah', arab:'اَللّٰهُمَّ إِنِّيْ أَسْأَلُكَ خَيْرَ الْمَوْلِجِ وَخَيْرَ الْمَخْرَجِ', latin:"Allāhumma innī as'aluka khairal-mauliji wa khairal-makhraji", arti:'"Ya Allah, aku memohon kepada-Mu sebaik-baik tempat masuk dan keluar."' },
+  { judul:'Doa Sebelum Belajar', arab:'رَبِّ زِدْنِيْ عِلْمًا وَارْزُقْنِيْ فَهْمًا', latin:"Rabbi zidnī 'ilman warzuqnī fahman", arti:'"Ya Tuhanku, tambahkanlah ilmu kepadaku dan berilah aku pemahaman."' },
+  { judul:'Doa Untuk Orang Tua', arab:'رَبِّ اغْفِرْ لِيْ وَلِوَالِدَيَّ وَارْحَمْهُمَا كَمَا رَبَّيَانِيْ صَغِيْرًا', latin:"Rabbigfirlī wa liwālidayya warḥamhumā kamā rabbayānī ṣagīrā", arti:'"Ya Tuhanku, ampunilah aku dan kedua orang tuaku, sayangilah mereka sebagaimana mereka menyayangiku di waktu kecil."' },
+  { judul:'Doa Kebaikan Dunia & Akhirat', arab:'رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ', latin:"Rabbanā ātinā fid-dun-yā ḥasanataw wa fil-ākhirati ḥasanataw wa qinā 'ażāban-nār", arti:'"Wahai Tuhan kami, berilah kami kebaikan di dunia dan akhirat, dan peliharalah kami dari azab api neraka."' },
+  { judul:'Doa Sebelum Wudhu', arab:'نَوَيْتُ الْوُضُوْءَ لِرَفْعِ الْحَدَثِ الْأَصْغَرِ فَرْضًا لِلّٰهِ تَعَالَى', latin:"Nawaitul-wuḍū'a liraf'il-ḥadaṡil-aṣgari farḍal lillāhi ta'ālā", arti:'"Aku niat berwudhu untuk menghilangkan hadas kecil, fardhu karena Allah Ta\'ala."' },
+  { judul:'Doa Setelah Wudhu', arab:'أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللّٰهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا رَسُوْلُ اللّٰهِ', latin:'Asyhadu allā ilāha illallāh wa asyhadu anna Muḥammadar rasūlullāh', arti:'"Aku bersaksi bahwa tiada Tuhan selain Allah, dan Muhammad adalah Rasul Allah."' },
+  { judul:'Doa Masuk Masjid', arab:'اَللّٰهُمَّ افْتَحْ لِيْ أَبْوَابَ رَحْمَتِكَ', latin:'Allāhummaftaḥ lī abwāba raḥmatik', arti:'"Ya Allah, bukakanlah untukku pintu-pintu rahmat-Mu."' },
+  { judul:'Doa Keluar Masjid', arab:'اَللّٰهُمَّ إِنِّيْ أَسْأَلُكَ مِنْ فَضْلِكَ', latin:"Allāhumma innī as'aluka min faḍlik", arti:'"Ya Allah, aku memohon kepada-Mu sebagian dari karunia-Mu."' },
+  { judul:'Doa Ketika Hujan', arab:'اَللّٰهُمَّ صَيِّبًا نَافِعًا', latin:"Allāhumma ṣayyiban nāfi'ā", arti:'"Ya Allah, turunkanlah hujan yang bermanfaat."' },
+  { judul:'Doa Sebelum Perjalanan', arab:'سُبْحَانَ الَّذِيْ سَخَّرَ لَنَا هٰذَا وَمَا كُنَّا لَهُ مُقْرِنِيْنَ', latin:'Subḥānal-lażī sakhkhara lanā hāżā wa mā kunnā lahū muqrinīn', arti:'"Maha Suci Allah yang menundukkan kendaraan ini untuk kami, padahal kami sebelumnya tidak mampu menguasainya."' }
+];
+
+function openDoa() {
+  openSub('subDoa');
+  document.getElementById('doaBody').innerHTML = DOA_LIST.map((d, i) => `
+    <div class="doa-item" id="doa-${i}">
+      <div class="doa-head" onclick="toggleDoa(${i})">
+        <div class="title">📖 ${d.judul}</div>
+        <i class="fas fa-chevron-down icon"></i>
+      </div>
+      <div class="doa-body">
+        <div class="arab">${d.arab}</div>
+        <div class="latin">${d.latin}</div>
+        <div class="arti">${d.arti}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleDoa(i) { document.getElementById('doa-' + i).classList.toggle('open'); }
+
+/* ============================================================
+   GAMES - KUIS ISLAMI
+============================================================ */
+const GAMES_BANK = [
+  { topik:'Pengetahuan Islam', pertanyaan:'Rukun Islam ada berapa?', opsi:['3','4','5','6'], jawaban:2 },
+  { topik:'Pengetahuan Islam', pertanyaan:'Kitab suci umat Islam adalah...', opsi:['Injil','Taurat','Zabur','Al-Qur\'an'], jawaban:3 },
+  { topik:'Pengetahuan Islam', pertanyaan:'Nabi terakhir umat Islam adalah...', opsi:['Nabi Isa','Nabi Musa','Nabi Muhammad SAW','Nabi Ibrahim'], jawaban:2 },
+  { topik:'Pengetahuan Islam', pertanyaan:'Sholat wajib dalam sehari ada berapa waktu?', opsi:['3','4','5','6'], jawaban:2 },
+  { topik:'Pengetahuan Islam', pertanyaan:'Bulan puasa umat Islam adalah...', opsi:['Syawal','Ramadhan','Rajab','Muharram'], jawaban:1 },
+  { topik:'Pengetahuan Islam', pertanyaan:'Malaikat pencatat amal baik adalah...', opsi:['Raqib','Atid','Jibril','Mikail'], jawaban:0 },
+  { topik:'Pengetahuan Islam', pertanyaan:'Surat terpanjang dalam Al-Qur\'an adalah...', opsi:['Al-Fatihah','Al-Baqarah','Yasin','An-Nas'], jawaban:1 },
+  { topik:'Pengetahuan Islam', pertanyaan:'Kiblat umat Islam adalah...', opsi:['Masjid Nabawi','Ka\'bah','Masjidil Aqsa','Madinah'], jawaban:1 },
+  { topik:'Pengetahuan Islam', pertanyaan:'Nabi yang menerima kitab Taurat adalah...', opsi:['Nabi Isa','Nabi Musa','Nabi Daud','Nabi Ibrahim'], jawaban:1 },
+  { topik:'Pengetahuan Islam', pertanyaan:'Rukun iman ada berapa?', opsi:['4','5','6','7'], jawaban:2 },
+  { topik:'Pengetahuan Islam', pertanyaan:'Sholat yang jumlahnya 3 rakaat adalah...', opsi:['Subuh','Maghrib','Isya','Ashar'], jawaban:1 },
+  { topik:'Pengetahuan Islam', pertanyaan:'Hari raya umat Islam setelah Ramadhan adalah...', opsi:['Idul Adha','Idul Fitri','Maulid','Isra Mi\'raj'], jawaban:1 },
+  { topik:'Pengetahuan Islam', pertanyaan:'Nama ibu Nabi Isa adalah...', opsi:['Aisyah','Maryam','Khadijah','Hawa'], jawaban:1 },
+  { topik:'Pengetahuan Islam', pertanyaan:'Kitab Nabi Daud adalah...', opsi:['Taurat','Injil','Zabur','Al-Qur\'an'], jawaban:2 },
+  { topik:'Pengetahuan Islam', pertanyaan:'Jumlah rakaat sholat Subuh adalah...', opsi:['2','3','4','5'], jawaban:0 },
+  { topik:'Pengetahuan Umum', pertanyaan:'Ibu kota Indonesia adalah...', opsi:['Bandung','Jakarta','Surabaya','Medan'], jawaban:1 },
+  { topik:'Pengetahuan Umum', pertanyaan:'Planet terdekat dengan matahari adalah...', opsi:['Venus','Bumi','Merkurius','Mars'], jawaban:2 },
+  { topik:'Pengetahuan Umum', pertanyaan:'Hewan tercepat di darat adalah...', opsi:['Singa','Cheetah','Kuda','Kijang'], jawaban:1 },
+  { topik:'Pengetahuan Umum', pertanyaan:'Bendera Indonesia berwarna...', opsi:['Merah Kuning','Merah Putih','Putih Biru','Hijau Putih'], jawaban:1 },
+  { topik:'Pengetahuan Umum', pertanyaan:'Presiden pertama RI adalah...', opsi:['Soeharto','Ir. Soekarno','Habibie','SBY'], jawaban:1 },
+  { topik:'Pengetahuan Umum', pertanyaan:'Danau terbesar di Indonesia adalah...', opsi:['Danau Toba','Danau Singkarak','Danau Sentani','Danau Poso'], jawaban:0 },
+  { topik:'Pengetahuan Umum', pertanyaan:'Benua terluas di dunia adalah...', opsi:['Afrika','Amerika','Asia','Eropa'], jawaban:2 },
+  { topik:'Pengetahuan Umum', pertanyaan:'Mata uang Jepang adalah...', opsi:['Won','Yuan','Yen','Ringgit'], jawaban:2 },
+  { topik:'Pengetahuan Umum', pertanyaan:'Hewan berkantung dari Australia adalah...', opsi:['Panda','Kanguru','Koala','Beruang'], jawaban:1 },
+  { topik:'Pengetahuan Umum', pertanyaan:'Gunung tertinggi di dunia adalah...', opsi:['Everest','Kilimanjaro','Fuji','Semeru'], jawaban:0 },
+  { topik:'Pengetahuan Umum', pertanyaan:'Hari Sumpah Pemuda diperingati tanggal...', opsi:['17 Agustus','28 Oktober','10 November','1 Juni'], jawaban:1 },
+  { topik:'Pengetahuan Umum', pertanyaan:'Organ pernapasan ikan adalah...', opsi:['Paru-paru','Insang','Kulit','Trakea'], jawaban:1 },
+  { topik:'Pengetahuan Umum', pertanyaan:'Candi Borobudur terletak di provinsi...', opsi:['Jawa Timur','Jawa Tengah','Jawa Barat','DIY'], jawaban:1 },
+  { topik:'Pengetahuan Umum', pertanyaan:'Warna campuran merah + kuning adalah...', opsi:['Hijau','Ungu','Oranye','Coklat'], jawaban:2 },
+  { topik:'Pengetahuan Umum', pertanyaan:'Sungai terpanjang di dunia adalah...', opsi:['Amazon','Nil','Yangtze','Mississippi'], jawaban:1 },
+  { topik:'Matematika', pertanyaan:'15 × 4 = ...', opsi:['45','50','60','65'], jawaban:2 },
+  { topik:'Matematika', pertanyaan:'25% dari 200 adalah...', opsi:['25','40','50','75'], jawaban:2 },
+  { topik:'Matematika', pertanyaan:'2^4 × 2^3 = ...', opsi:['2^7','2^12','4^7','8^4'], jawaban:0 },
+  { topik:'Matematika', pertanyaan:'KPK dari 12 dan 18 adalah...', opsi:['6','12','18','36'], jawaban:3 },
+  { topik:'Matematika', pertanyaan:'3 jam 45 menit = ... menit', opsi:['180','200','225','245'], jawaban:2 },
+  { topik:'Matematika', pertanyaan:'Luas segitiga dengan a=10, t=6 adalah...', opsi:['16','30','60','32'], jawaban:1 },
+  { topik:'Matematika', pertanyaan:'Jika x + 5 = 12, maka x = ...', opsi:['5','6','7','8'], jawaban:2 },
+  { topik:'Matematika', pertanyaan:'Rata-rata dari 5,7,8,10,10 adalah...', opsi:['7','8','9','10'], jawaban:1 },
+  { topik:'Matematika', pertanyaan:'Keliling lingkaran r=7, π=22/7 adalah...', opsi:['22','44','154','88'], jawaban:1 },
+  { topik:'Matematika', pertanyaan:'Volume balok 8×5×3 adalah...', opsi:['80','100','120','150'], jawaban:2 },
+  { topik:'Sejarah & Sains', pertanyaan:'Proklamasi Kemerdekaan RI tahun...', opsi:['1942','1945','1948','1950'], jawaban:1 },
+  { topik:'Sejarah & Sains', pertanyaan:'Penemu lampu pijar adalah...', opsi:['Einstein','Edison','Newton','Bell'], jawaban:1 },
+  { topik:'Sejarah & Sains', pertanyaan:'Proses air menjadi uap disebut...', opsi:['Membeku','Menguap','Mencair','Menyublim'], jawaban:1 },
+  { topik:'Sejarah & Sains', pertanyaan:'Sumber energi terbesar di bumi adalah...', opsi:['Angin','Batu bara','Matahari','Air'], jawaban:2 },
+  { topik:'Sejarah & Sains', pertanyaan:'Kekurangan vitamin C menyebabkan...', opsi:['Rabun','Sariawan','Anemia','Gondok'], jawaban:1 },
+  { topik:'Campuran', pertanyaan:'Hari Kemerdekaan Indonesia tanggal...', opsi:['17 Agustus','1 Juni','28 Oktober','10 November'], jawaban:0 },
+  { topik:'Campuran', pertanyaan:'Lagu kebangsaan Indonesia adalah...', opsi:['Garuda Pancasila','Indonesia Raya','Bagimu Negeri','Halo-Halo Bandung'], jawaban:1 },
+  { topik:'Campuran', pertanyaan:'Bahasa untuk membuat website adalah...', opsi:['Python','HTML','Java','C++'], jawaban:1 },
+  { topik:'Campuran', pertanyaan:'Olahraga yang menggunakan raket adalah...', opsi:['Sepak bola','Basket','Tenis','Voli'], jawaban:2 },
+  { topik:'Campuran', pertanyaan:'Induk organisasi sepak bola Indonesia adalah...', opsi:['PBSI','PSSI','PBVSI','PERBASI'], jawaban:1 }
+];
+
+let gamesSoal = [], gamesJawaban = [], gamesStatus = [], gamesIndex = 0, gamesTimer = null, gamesTimeLeft = 30 * 60;
+
+function openGames() {
+  openSub('subGames');
+  document.getElementById('gamesMenu').style.display = 'block';
+  document.getElementById('gamesPlay').style.display = 'none';
+  document.getElementById('gamesResult').style.display = 'none';
+  document.getElementById('gamesHistory').style.display = 'none';
+  loadBestScore();
+}
+
+function loadBestScore() {
+  const history = JSON.parse(localStorage.getItem('tidak_games_history')) || [];
+  const my = history.filter(h => h.username === currentUser.username);
+  const best = my.length > 0 ? Math.max(...my.map(h => h.skor)) : null;
+  document.getElementById('bestScoreVal').textContent = best !== null ? best : '-';
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startGames() {
+  gamesSoal = shuffle(GAMES_BANK).slice(0, 50);
+  gamesJawaban = new Array(50).fill(null);
+  gamesStatus = new Array(50).fill(null);
+  gamesIndex = 0;
+  gamesTimeLeft = 30 * 60;
+  document.getElementById('gamesMenu').style.display = 'none';
+  document.getElementById('gamesPlay').style.display = 'block';
+  document.getElementById('gamesResult').style.display = 'none';
+  document.getElementById('gamesHistory').style.display = 'none';
+  document.getElementById('gamesUser').textContent = currentUser.username;
+  renderGamesNav();
+  renderGamesSoal();
+  startGamesTimer();
+}
+
+function startGamesTimer() {
+  if (gamesTimer) clearInterval(gamesTimer);
+  updateGamesTimer();
+  gamesTimer = setInterval(() => {
+    gamesTimeLeft--;
+    updateGamesTimer();
+    if (gamesTimeLeft <= 0) { clearInterval(gamesTimer); alert('⏰ Waktu habis!'); gamesFinish(true); }
+  }, 1000);
+}
+
+function updateGamesTimer() {
+  const m = Math.floor(gamesTimeLeft / 60);
+  const s = gamesTimeLeft % 60;
+  const el = document.getElementById('gamesTimer');
+  el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  el.style.color = gamesTimeLeft <= 60 ? '#FF1744' : gamesTimeLeft <= 300 ? '#FF9800' : '#00E5FF';
+}
+
+function renderGamesNav() {
+  const nav = document.getElementById('gamesNav');
+  nav.innerHTML = '';
+  for (let i = 0; i < 50; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'games-nav-btn';
+    btn.textContent = i + 1;
+    if (i === gamesIndex) btn.classList.add('active');
+    if (gamesStatus[i] !== null) btn.classList.add('answered');
+    btn.onclick = () => { gamesIndex = i; renderGamesSoal(); };
+    nav.appendChild(btn);
+  }
+}
+
+function renderGamesSoal() {
+  const s = gamesSoal[gamesIndex];
+  document.getElementById('gamesBadge').textContent = '📚 ' + s.topik;
+  document.getElementById('gamesNum').textContent = `Soal ${gamesIndex + 1} dari 50`;
+  document.getElementById('gamesQ').textContent = s.pertanyaan;
+  const c = document.getElementById('gamesOptions');
+  c.innerHTML = '';
+  const labels = ['A','B','C','D'];
+  s.opsi.forEach((text, i) => {
+    const label = document.createElement('label');
+    label.className = 'game-opt';
+    const radio = document.createElement('input');
+    radio.type = 'radio'; radio.name = 'gamesOpsi'; radio.value = i;
+    if (gamesJawaban[gamesIndex] === i) { radio.checked = true; label.classList.add('selected'); }
+    if (gamesStatus[gamesIndex] !== null) { radio.disabled = true; label.classList.add('disabled'); }
+    radio.onchange = () => {
+      if (gamesStatus[gamesIndex] !== null) return;
+      gamesJawaban[gamesIndex] = i;
+      document.getElementById('gamesSubmit').disabled = false;
+      c.querySelectorAll('label').forEach(l => l.classList.remove('selected'));
+      label.classList.add('selected');
+    };
+    label.appendChild(radio);
+    label.appendChild(document.createTextNode(` ${labels[i]}. ${text}`));
+    c.appendChild(label);
+  });
+  const btnSub = document.getElementById('gamesSubmit');
+  if (gamesStatus[gamesIndex] !== null) { btnSub.disabled = true; btnSub.textContent = '✅ SUDAH DIJAWAB'; }
+  else { btnSub.disabled = gamesJawaban[gamesIndex] === null; btnSub.textContent = '✅ JAWAB'; }
+  renderGamesNav();
+}
+
+function gamesSubmit() {
+  if (gamesStatus[gamesIndex] !== null) return;
+  const j = gamesJawaban[gamesIndex];
+  if (j === null) return;
+  gamesStatus[gamesIndex] = (j === gamesSoal[gamesIndex].jawaban) ? 'benar' : 'salah';
+  renderGamesSoal();
+  const total = gamesStatus.filter(s => s !== null).length;
+  if (total === 50) { setTimeout(() => gamesFinish(false), 500); }
+  else {
+    for (let i = 1; i <= 50; i++) {
+      const next = (gamesIndex + i) % 50;
+      if (gamesStatus[next] === null) { gamesIndex = next; renderGamesSoal(); break; }
+    }
+  }
+}
+
+function gamesNext() {
+  for (let i = 1; i <= 50; i++) {
+    const next = (gamesIndex + i) % 50;
+    if (gamesStatus[next] === null) { gamesIndex = next; renderGamesSoal(); return; }
+  }
+  alert('Semua soal sudah dijawab! Klik SELESAI untuk melihat hasil.');
+}
+
+function gamesFinish(timeout) {
+  const belum = gamesStatus.filter(s => s === null).length;
+  if (!timeout && belum > 0) { if (!confirm(`⚠️ Masih ada ${belum} soal belum dijawab. Yakin selesai?`)) return; }
+  if (gamesTimer) clearInterval(gamesTimer);
+  for (let i = 0; i < 50; i++) { if (gamesStatus[i] === null) { gamesStatus[i] = 'salah'; gamesJawaban[i] = -1; } }
+  showGamesResult(timeout);
+}
+
+function showGamesResult(timeout) {
+  document.getElementById('gamesPlay').style.display = 'none';
+  const el = document.getElementById('gamesResult');
+  el.style.display = 'block';
+  const benar = gamesStatus.filter(s => s === 'benar').length;
+  const salah = gamesStatus.filter(s => s === 'salah').length;
+  const waktuPakai = 30 * 60 - gamesTimeLeft;
+  const menit = Math.floor(waktuPakai / 60);
+  const detik = waktuPakai % 60;
+  let motivasi = benar >= 45 ? '🌟 Luar biasa!' : benar >= 38 ? '💪 Bagus!' : benar >= 30 ? '📚 Lumayan!' : benar >= 20 ? '🧠 Jangan menyerah!' : '💪 Teruslah mencoba!';
+  const tgl = new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
+  const history = JSON.parse(localStorage.getItem('tidak_games_history')) || [];
+  history.push({ username: currentUser.username, skor: benar, waktu: `${menit}m ${detik}d`, tanggal: new Date().toISOString() });
+  localStorage.setItem('tidak_games_history', JSON.stringify(history));
+  const topikData = {};
+  for (let i = 0; i < 50; i++) {
+    const t = gamesSoal[i].topik;
+    if (!topikData[t]) topikData[t] = { benar:0, total:0 };
+    topikData[t].total++;
+    if (gamesStatus[i] === 'benar') topikData[t].benar++;
+  }
+  el.innerHTML = `
+    <div class="result-score">
+      <div class="val">${benar}</div>
+      <div class="lbl">DARI 50 SOAL</div>
+      <div class="motiv">${timeout ? '⏰ WAKTU HABIS! ' : ''}${motivasi}</div>
+    </div>
+    <div style="text-align:center;padding:12px;background:rgba(0,229,255,.08);border:1px solid rgba(0,229,255,.2);border-radius:10px;margin-bottom:16px;font-size:12px;color:rgba(255,255,255,.7);font-family:Share Tech Mono,monospace;">
+      👤 ${currentUser.username} | ⏱️ ${menit}m ${detik}d | 📅 ${tgl}
+    </div>
+    <div class="grafik-box">
+      <h4>📊 BENAR / SALAH</h4>
+      <div class="grafik-bar"><div class="gl">✅ Benar: ${benar}</div><div class="track"><div class="fill" style="width:${(benar/50*100)}%"></div></div></div>
+      <div class="grafik-bar"><div class="gl">❌ Salah: ${salah}</div><div class="track"><div class="fill salah" style="width:${(salah/50*100)}%"></div></div></div>
+    </div>
+    <div class="grafik-box">
+      <h4>📚 PER TOPIK</h4>
+      ${Object.entries(topikData).map(([t, d]) => `
+        <div class="grafik-bar"><div class="gl">${t}: ${d.benar}/${d.total}</div><div class="track"><div class="fill" style="width:${(d.benar/d.total*100)}%"></div></div></div>
+      `).join('')}
+    </div>
+    <h3 style="font-family:Orbitron,sans-serif;font-size:13px;color:var(--cyan);margin:20px 0 12px;text-align:center;letter-spacing:1px;">📝 KOREKSI JAWABAN</h3>
+    <div style="max-height:400px;overflow-y:auto;padding-right:6px;margin-bottom:16px;">
+      ${gamesStatus.map((s, i) => {
+        const status = s === 'benar' ? '✅' : '❌';
+        const jb = gamesSoal[i].opsi[gamesSoal[i].jawaban];
+        const ju = gamesJawaban[i] >= 0 ? gamesSoal[i].opsi[gamesJawaban[i]] : 'Tidak dijawab';
+        return `<div class="koreksi-item ${s}">
+          <div class="kn">${status} Soal ${i+1} - ${gamesSoal[i].topik}</div>
+          <div class="kt">${gamesSoal[i].pertanyaan}</div>
+          <div class="kj ${s === 'salah' ? 'salah' : ''}">Kamu: ${ju} | Benar: ${jb}</div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="cert-wrap">
+      <div class="cert" id="gamesCert">
+        <div class="ctop">★ ★ ★ ★ ★</div>
+        <div class="cjud">SERTIFIKAT PENGHARGAAN</div>
+        <div class="csub">Kuis Tools Damanik Family</div>
+        <div class="cdib">Diberikan kepada:</div>
+        <div class="cnama">${currentUser.username.toUpperCase()}</div>
+        <div class="cket">Atas keberhasilan menyelesaikan kuis dengan nilai</div>
+        <div class="cskor">${benar} / 50</div>
+        <div class="cfoot">
+          <div class="ctgl"><span class="lbl">Tanggal:</span><span class="isi">${tgl}</span></div>
+          <div class="cttd"><div class="line"></div><div class="lbl">Tanda Tangan,</div><div class="nama">RIZKY ADRIAN A.</div></div>
+        </div>
+        <div class="cbot">★ ★ ★ ★ ★</div>
+      </div>
+    </div>
+    <div class="cert-actions">
+      <button class="btn-sm" onclick="printCert()">🖨️ CETAK / PDF</button>
+      <button class="btn-sm green" onclick="downloadCert()">⬇️ DOWNLOAD PNG</button>
+    </div>
+    <button class="login-btn" onclick="startGames()" style="margin-top:14px;">🔄 ULANGI KUIS</button>
+    <button class="btn-sm" style="width:100%;padding:12px;background:rgba(124,77,255,.3);margin-top:8px;" onclick="openGames()">🏠 MENU GAMES</button>
+  `;
+}
+
+function printCert() {
+  const cert = document.getElementById('gamesCert').outerHTML;
+  const w = window.open('', '', 'width=1000,height=750');
+  w.document.write(`<html><head><title>Sertifikat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>@page{size:A4 landscape;margin:.5cm}body{margin:0;padding:20px;background:#fff;display:flex;justify-content:center;align-items:center;min-height:100vh}
+    .cert{background:#fff8e0;padding:26px 40px;border:8px double #8a6a2a;color:#3a2a0a;text-align:center;position:relative;font-family:'Share Tech Mono',monospace;box-shadow:inset 0 0 0 4px #c9a04a,inset 0 0 0 8px #fff8e0;width:820px;min-height:460px;display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box}
+    .cert::before{content:'';position:absolute;top:14px;left:14px;right:14px;bottom:14px;border:3px solid #c9a04a}
+    .cjud{font-family:'Orbitron',sans-serif;font-size:20px;color:#8a6a2a;margin-bottom:4px;letter-spacing:3px;font-weight:900}
+    .csub{font-size:20px;color:#5a4a2a;margin-bottom:12px;font-style:italic}
+    .ctop,.cbot{font-size:20px;color:#c9a04a;letter-spacing:10px}
+    .cdib{font-size:18px;color:#3a2a0a;margin-bottom:4px}
+    .cnama{font-family:'Orbitron',sans-serif;font-size:26px;color:#8a6a2a;margin:12px auto;padding:10px 18px;border-top:3px solid #c9a04a;border-bottom:3px solid #c9a04a;display:inline-block;min-width:340px}
+    .cket{font-size:18px;color:#3a2a0a;margin:10px 0}
+    .cskor{font-family:'Orbitron',sans-serif;font-size:24px;color:#8a6a2a;margin:10px 0;padding:8px 20px;background:rgba(200,160,74,.15);display:inline-block;border:3px solid #c9a04a}
+    .cfoot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:12px;padding:0 20px}
+    .ctgl{font-size:18px;color:#5a4a2a;text-align:left}
+    .ctgl .lbl{font-size:14px;display:block;margin-bottom:4px}
+    .ctgl .isi{font-family:'Orbitron',sans-serif;font-size:11px;color:#8a6a2a;padding:4px 10px;border:2px solid #c9a04a;display:inline-block}
+    .cttd{text-align:center}
+    .cttd .line{width:150px;height:2px;background:#8a6a2a;margin:0 auto 4px}
+    .cttd .lbl{font-size:14px;color:#5a4a2a;margin-bottom:2px}
+    .cttd .nama{font-family:'Orbitron',sans-serif;font-size:10px;color:#8a6a2a}
+    </style></head><body>${cert}</body></html>`);
+  w.document.close();
+  setTimeout(() => w.print(), 500);
+}
+
+function downloadCert() {
+  const cert = document.getElementById('gamesCert');
+  html2canvas(cert, { backgroundColor:'#fff8e0', scale:2 }).then(canvas => {
+    const link = document.createElement('a');
+    link.download = `Sertifikat_${currentUser.username}_ToolsDamanik.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }).catch(err => alert('Gagal download: ' + err));
+}
+
+function showGamesHistory() {
+  document.getElementById('gamesMenu').style.display = 'none';
+  const el = document.getElementById('gamesHistory');
+  el.style.display = 'block';
+  const history = (JSON.parse(localStorage.getItem('tidak_games_history')) || []).filter(h => h.username === currentUser.username).reverse();
+  if (history.length === 0) {
+    el.innerHTML = `
+      <div style="text-align:center;padding:40px 20px;">
+        <div style="font-size:56px;margin-bottom:14px;">📜</div>
+        <p style="color:rgba(255,255,255,.6);font-size:14px;margin-bottom:16px;">Belum ada riwayat.</p>
+        <button class="btn-sm" style="padding:12px 20px;" onclick="openGames()">🔙 KEMBALI</button>
+      </div>`;
+    return;
+  }
+  el.innerHTML = `
+    <h3 style="font-family:Orbitron,sans-serif;font-size:14px;color:var(--cyan);margin-bottom:14px;letter-spacing:1px;">📜 RIWAYAT MAIN</h3>
+    ${history.map(h => `
+      <div style="padding:14px 16px;background:linear-gradient(160deg,#1A1F2E,#151A28);border:1.5px solid rgba(124,77,255,.2);border-radius:14px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:4px;">${new Date(h.tanggal).toLocaleDateString('id-ID', {day:'numeric',month:'short',year:'numeric'})}</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.7);">⏱️ ${h.waktu}</div>
+        </div>
+        <div style="font-family:Orbitron,sans-serif;font-size:20px;font-weight:900;background:linear-gradient(90deg,#00E5FF,#7C4DFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${h.skor}/50</div>
+      </div>
+    `).join('')}
+    <button class="btn-sm" style="width:100%;padding:12px;margin-top:10px;" onclick="openGames()">🔙 KEMBALI</button>
+  `;
+}
+
+/* ============================================================
+   MEMORY GAME
+============================================================ */
+const MEMORY_EMOJIS = ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🍎','🍌','🍇','🍉','🍓','🍒','🍑','🍍','🥝','🍊','⚽','🏀','🏈','⚾','🎾','🏐','🏉','🕌','📖','⭐','🌙','🕋','📿'];
+
+let memLevel = 'easy';
+let memCards = [];
+let memFlipped = [];
+let memMoves = 0;
+let memTimerInt = null;
+let memSeconds = 0;
+let memLocked = false;
+
+function openMemory() {
+  openSub('subMemory');
+  loadMemoryBest();
+  startMemory();
+}
+
+function setMemoryLevel(lvl) {
+  memLevel = lvl;
+  document.querySelectorAll('.memory-level').forEach(el => el.classList.toggle('active', el.dataset.lvl === lvl));
+  startMemory();
+}
+
+function loadMemoryBest() {
+  const key = 'tidak_mem_best_' + memLevel;
+  const best = localStorage.getItem(key);
+  document.getElementById('memBest').textContent = best ? best + 'x' : '-';
+}
+
+function startMemory() {
+  let cols, rows, pairs;
+  if (memLevel === 'easy') { cols = 4; rows = 4; pairs = 8; }
+  else if (memLevel === 'medium') { cols = 4; rows = 5; pairs = 10; }
+  else { cols = 6; rows = 6; pairs = 18; }
+
+  const emojis = shuffle(MEMORY_EMOJIS).slice(0, pairs);
+  memCards = shuffle([...emojis, ...emojis]);
+  memFlipped = [];
+  memMoves = 0;
+  memSeconds = 0;
+  memLocked = false;
+
+  document.getElementById('memMoves').textContent = '0';
+  document.getElementById('memTimer').textContent = '00:00';
+
+  const grid = document.getElementById('memoryGrid');
+  grid.className = 'memory-grid lvl-' + memLevel;
+  grid.innerHTML = memCards.map((e, i) => `
+    <div class="memory-card" data-idx="${i}" data-emoji="${e}" onclick="flipMemoryCard(${i})">
+      <span class="emoji">${e}</span>
+    </div>
+  `).join('');
+
+  if (memTimerInt) clearInterval(memTimerInt);
+  memTimerInt = setInterval(() => {
+    memSeconds++;
+    const m = Math.floor(memSeconds / 60);
+    const s = memSeconds % 60;
+    document.getElementById('memTimer').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  }, 1000);
+
+  loadMemoryBest();
+}
+
+function flipMemoryCard(idx) {
+  if (memLocked) return;
+  const card = document.querySelector(`.memory-card[data-idx="${idx}"]`);
+  if (!card || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+
+  card.classList.add('flipped');
+  memFlipped.push(idx);
+  if (navigator.vibrate) navigator.vibrate(20);
+
+  if (memFlipped.length === 2) {
+    memMoves++;
+    document.getElementById('memMoves').textContent = memMoves;
+    memLocked = true;
+    const [i1, i2] = memFlipped;
+    const c1 = document.querySelector(`.memory-card[data-idx="${i1}"]`);
+    const c2 = document.querySelector(`.memory-card[data-idx="${i2}"]`);
+
+    if (c1.dataset.emoji === c2.dataset.emoji) {
+      setTimeout(() => {
+        c1.classList.add('matched'); c2.classList.add('matched');
+        memFlipped = [];
+        memLocked = false;
+        checkMemoryWin();
+      }, 400);
+    } else {
+      setTimeout(() => {
+        c1.classList.remove('flipped'); c2.classList.remove('flipped');
+        memFlipped = [];
+        memLocked = false;
+      }, 800);
+    }
+  }
+}
+
+function checkMemoryWin() {
+  const matched = document.querySelectorAll('.memory-card.matched').length;
+  const total = memCards.length;
+  if (matched === total) {
+    if (memTimerInt) clearInterval(memTimerInt);
+    setTimeout(() => {
+      const bestKey = 'tidak_mem_best_' + memLevel;
+      const oldBest = parseInt(localStorage.getItem(bestKey) || '999999');
+      const isNewBest = memMoves < oldBest;
+      if (isNewBest) localStorage.setItem(bestKey, memMoves);
+      if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 200]);
+      const m = Math.floor(memSeconds / 60);
+      const s = memSeconds % 60;
+      alert(`🎉 MENANG!\n\n⏱️ Waktu: ${m}m ${s}d\n🎯 Langkah: ${memMoves}\n${isNewBest ? '🏆 REKOR BARU!' : '🏆 Terbaik: ' + Math.min(memMoves, oldBest) + ' langkah'}`);
+      loadMemoryBest();
+    }, 500);
+  }
+}
+
+/* ============================================================
+   KAMUS MINI (MyMemory API)
+============================================================ */
+const KAMUS_LANG_NAMES = {
+  id:'Indonesia', en:'Inggris', ar:'Arab', ja:'Jepang', ko:'Korea',
+  zh:'Mandarin', es:'Spanyol', fr:'Prancis', de:'Jerman', ms:'Melayu'
+};
+
+function openKamus() {
+  openSub('subKamus');
+  loadKamusFavorites();
+}
+
+function swapKamusLang() {
+  const from = document.getElementById('kamusFrom');
+  const to = document.getElementById('kamusTo');
+  const tmp = from.value;
+  from.value = to.value;
+  to.value = tmp;
+}
+
+function quickKamus(word) {
+  document.getElementById('kamusInput').value = word;
+  searchKamus();
+}
+
+async function searchKamus() {
+  const text = document.getElementById('kamusInput').value.trim();
+  const from = document.getElementById('kamusFrom').value;
+  const to = document.getElementById('kamusTo').value;
+  if (!text) { toast('Masukkan kata dulu!', 'error'); return; }
+
+  const result = document.getElementById('kamusResult');
+  result.style.display = 'block';
+  result.innerHTML = '<div style="text-align:center;padding:20px;"><div class="spinner" style="width:40px;height:40px;border:3px solid rgba(38,166,154,.2);border-top-color:#26A69A;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto;"></div><p style="color:#26A69A;margin-top:10px;font-size:12px;letter-spacing:1.5px;">MENCARI...</p></div>';
+
+  try {
+    // MyMemory API: gratis, tanpa key, limit 1000 kata/hari
+    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`;
+    const res = await fetch(url);
+    const json = await res.json();
+    if (!json.responseData || !json.responseData.translatedText) throw new Error('Tidak ditemukan');
+
+    const translation = json.responseData.translatedText;
+    const match = json.matches && json.matches[0] ? json.matches[0].match : 0;
+
+    result.innerHTML = `
+      <div class="src">📝 ${text} <span style="color:rgba(255,255,255,.4);font-size:11px;">(${KAMUS_LANG_NAMES[from]})</span></div>
+      <div class="dst">→ ${translation}</div>
+      <div class="meta">🌐 ${KAMUS_LANG_NAMES[from]} → ${KAMUS_LANG_NAMES[to]} • Akurasi: ${Math.round(match * 100)}%</div>
+      <div class="kamus-actions">
+        <button class="btn-sm" onclick="copyKamus('${translation.replace(/'/g,"\\'")}')">📋 COPY</button>
+        <button class="btn-sm" onclick="saveFavoriteKamus('${text.replace(/'/g,"\\'")}','${translation.replace(/'/g,"\\'")}','${from}','${to}')">⭐ FAVORIT</button>
+        <button class="btn-sm green" onclick="speakKamus('${translation.replace(/'/g,"\\'")}','${to}')">🔊 DENGAR</button>
+      </div>
+    `;
+  } catch (e) {
+    result.innerHTML = `
+      <div style="text-align:center;padding:20px;">
+        <div style="font-size:40px;margin-bottom:10px;">⚠️</div>
+        <p style="color:#ff6b6b;font-size:13px;">Gagal menerjemahkan.<br>Cek koneksi internet.</p>
+      </div>`;
+    console.error(e);
+  }
+}
+
+function copyKamus(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    toast('✅ Disalin: ' + text, 'success');
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast('✅ Disalin!', 'success');
+  });
+}
+
+function speakKamus(text, lang) {
+  if (!('speechSynthesis' in window)) { toast('Browser tidak support', 'error'); return; }
+  const u = new SpeechSynthesisUtterance(text);
+  const langMap = { id:'id-ID', en:'en-US', ar:'ar-SA', ja:'ja-JP', ko:'ko-KR', zh:'zh-CN', es:'es-ES', fr:'fr-FR', de:'de-DE', ms:'ms-MY' };
+  u.lang = langMap[lang] || 'en-US';
+  u.rate = 0.9;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+  toast('🔊 Memutar...', 'success');
+}
+
+function saveFavoriteKamus(from, to, fromLang, toLang) {
+  const favs = JSON.parse(localStorage.getItem('tidak_kamus_fav')) || [];
+  if (favs.find(f => f.from === from && f.to === to)) { toast('Sudah ada di favorit', 'error'); return; }
+  favs.push({ from, to, fromLang, toLang, tgl: new Date().toISOString() });
+  localStorage.setItem('tidak_kamus_fav', JSON.stringify(favs));
+  loadKamusFavorites();
+  toast('⭐ Disimpan ke favorit!', 'success');
+}
+
+function loadKamusFavorites() {
+  const el = document.getElementById('kamusFavList');
+  if (!el) return;
+  const favs = JSON.parse(localStorage.getItem('tidak_kamus_fav')) || [];
+  if (favs.length === 0) {
+    el.innerHTML = '<p style="font-size:12px;color:rgba(255,255,255,.4);text-align:center;padding:10px;">Belum ada favorit</p>';
+    return;
+  }
+  el.innerHTML = favs.map((f, i) => `
+    <div class="kamus-fav-item">
+      <div><span class="t">${f.from}</span><span class="d">→ ${f.to}</span></div>
+      <div class="rm" onclick="removeFavoriteKamus(${i})">🗑️</div>
+    </div>
+  `).join('');
+}
+
+function removeFavoriteKamus(i) {
+  const favs = JSON.parse(localStorage.getItem('tidak_kamus_fav')) || [];
+  favs.splice(i, 1);
+  localStorage.setItem('tidak_kamus_fav', JSON.stringify(favs));
+  loadKamusFavorites();
+}
+
+/* ============================================================
+   KALKULATOR
+============================================================ */
+let calcStr = '';
+
+function openCalculator() {
+  openSub('subCalculator');
+  document.getElementById('calcCurrent').textContent = calcStr || '0';
+}
+
+function calcInput(val) {
+  const el = document.getElementById('calcCurrent');
+  if (calcStr === '0' && /[0-9.]/.test(val)) calcStr = '';
+  if (calcStr === '' && /[×÷+%]/.test(val)) return;
+  const last = calcStr.slice(-1);
+  if (/[×÷+\-]/.test(last) && /[×÷+\-]/.test(val)) {
+    calcStr = calcStr.slice(0, -1) + val;
+  } else {
+    calcStr += val;
+  }
+  el.textContent = calcStr;
+  el.style.fontSize = calcStr.length > 12 ? '20px' : calcStr.length > 8 ? '26px' : '32px';
+}
+
+function calcClear() {
+  calcStr = '';
+  document.getElementById('calcCurrent').textContent = '0';
+  document.getElementById('calcHistory').textContent = '';
+}
+
+function calcBackspace() {
+  calcStr = calcStr.slice(0, -1);
+  document.getElementById('calcCurrent').textContent = calcStr || '0';
+}
+
+function calcEquals() {
+  if (!calcStr) return;
+  const hist = document.getElementById('calcHistory');
+  const cur = document.getElementById('calcCurrent');
+  try {
+    let expr = calcStr.replace(/×/g, '*').replace(/÷/g, '/');
+    expr = expr.replace(/(\d+(\.\d+)?)%/g, '($1/100)');
+    const result = Function('"use strict";return (' + expr + ')')();
+    const rounded = Math.round(result * 100000000) / 100000000;
+    hist.textContent = calcStr + ' =';
+    calcStr = String(rounded);
+    cur.textContent = rounded;
+    cur.style.fontSize = calcStr.length > 12 ? '20px' : calcStr.length > 8 ? '26px' : '32px';
+  } catch (e) { cur.textContent = 'Error'; calcStr = ''; }
+}
+
+/* ============================================================
+   BERITA
+============================================================ */
+async function openNews() {
+  openSub('subNews');
+  loadNews('umum', document.querySelector('.news-cat.active'));
+}
+
+async function loadNews(kategori, btn) {
+  document.querySelectorAll('.news-cat').forEach(el => el.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const list = document.getElementById('newsList');
+  list.innerHTML = '<div class="loading"><div class="spinner"></div><p>MEMUAT BERITA...</p></div>';
+  const rssFeeds = {
+    'umum':'https://rss.detik.com/index.php/detikcom',
+    'teknologi':'https://rss.detik.com/index.php/inet',
+    'olahraga':'https://rss.detik.com/index.php/sepakbola',
+    'bisnis':'https://rss.detik.com/index.php/finance',
+    'hiburan':'https://rss.detik.com/index.php/hot',
+    'kesehatan':'https://rss.detik.com/index.php/health'
+  };
+  const feedUrl = rssFeeds[kategori] || rssFeeds['umum'];
+  try {
+    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`;
+    const res = await fetch(apiUrl);
+    const json = await res.json();
+    if (json.status !== 'ok' || !json.items || json.items.length === 0) throw new Error('Gagal');
+    list.innerHTML = json.items.slice(0, 20).map(item => {
+      let img = '';
+      const desc = item.description || item.content || '';
+      const match = desc.match(/<img[^>]+src=["']([^"']+)["']/i);
+      if (match) img = match[1];
+      const tanggal = new Date(item.pubDate).toLocaleString('id-ID', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
+      const cleanTitle = item.title.replace(/&amp;/g, '&').replace(/&#039;/g, "'").replace(/&quot;/g, '"');
+      return `
+        <a class="news-item" href="${item.link}" target="_blank" rel="noopener">
+          ${img ? `<img class="news-img" src="${img}" onerror="this.style.display='none'">` : `<div class="news-img" style="display:flex;align-items:center;justify-content:center;"><i class="fas fa-newspaper" style="font-size:28px;color:rgba(255,255,255,.3);"></i></div>`}
+          <div class="news-info">
+            <div class="news-title">${cleanTitle}</div>
+            <div class="news-meta"><span class="news-source">DETIK</span><span>${tanggal}</span></div>
+          </div>
+        </a>
+      `;
+    }).join('');
+  } catch (e) {
+    list.innerHTML = `
+      <div style="text-align:center;padding:30px 20px;">
+        <div style="font-size:48px;margin-bottom:14px;">⚠️</div>
+        <p style="color:#ff6b6b;font-size:14px;margin-bottom:14px;line-height:1.6;">Gagal memuat berita.<br>Cek koneksi internet kamu.</p>
+        <button class="btn-sm" style="padding:12px 20px;" onclick="loadNews('${kategori}', document.querySelector('.news-cat.active'))">🔄 COBA LAGI</button>
+      </div>`;
+    console.error(e);
+  }
+}
+
+/* ============================================================
+   CUACA
+============================================================ */
+function openWeather() {
+  openSub('subWeather');
+  loadWeather();
+}
+
+async function loadWeather() {
+  const coord = document.getElementById('weatherCity').value;
+  const [lat, lng] = coord.split(',');
+  const cityName = document.getElementById('weatherCity').selectedOptions[0].text;
+  const el = document.getElementById('weatherContent');
+  el.innerHTML = '<div class="loading"><div class="spinner"></div><p>MEMUAT CUACA...</p></div>';
+  try {
+    const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia/Jakarta&forecast_days=4`);
+    const json = await res.json();
+    if (!json.current) throw new Error('Data tidak tersedia');
+    const c = json.current;
+    const daily = json.daily;
+    const info = getWeatherInfo(c.weather_code);
+    let forecastHtml = '';
+    for (let i = 1; i <= 3; i++) {
+      const date = new Date(daily.time[i]);
+      const dayName = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'][date.getDay()];
+      const fInfo = getWeatherInfo(daily.weather_code[i]);
+      forecastHtml += `
+        <div class="forecast-day">
+          <div class="day">${dayName}, ${date.getDate()}/${date.getMonth()+1}</div>
+          <div class="icon">${fInfo.icon}</div>
+          <div class="temp">${Math.round(daily.temperature_2m_max[i])}° / ${Math.round(daily.temperature_2m_min[i])}°</div>
+        </div>
+      `;
+    }
+    el.innerHTML = `
+      <div class="weather-main">
+        <div class="weather-icon">${info.icon}</div>
+        <div class="weather-temp">${Math.round(c.temperature_2m)}°C</div>
+        <div class="weather-desc">${info.desc}</div>
+        <div class="weather-loc">📍 ${cityName} • Terasa ${Math.round(c.apparent_temperature)}°C</div>
+      </div>
+      <div class="weather-details">
+        <div class="weather-detail"><div class="lbl">💧 Kelembapan</div><div class="val">${c.relative_humidity_2m}%</div></div>
+        <div class="weather-detail"><div class="lbl">💨 Angin</div><div class="val">${Math.round(c.wind_speed_10m)} km/h</div></div>
+        <div class="weather-detail"><div class="lbl">🌧️ Hujan</div><div class="val">${c.precipitation} mm</div></div>
+        <div class="weather-detail"><div class="lbl">🌡️ Suhu</div><div class="val">${Math.round(c.temperature_2m)}°C</div></div>
+      </div>
+      <h3 style="font-family:Orbitron,sans-serif;font-size:13px;color:#FDB813;margin:20px 0 12px;letter-spacing:1px;text-align:center;">📅 PRAKIRAAN 3 HARI</h3>
+      <div class="weather-forecast">${forecastHtml}</div>
+    `;
+  } catch (e) {
+    el.innerHTML = `
+      <div style="text-align:center;padding:30px 20px;">
+        <div style="font-size:48px;margin-bottom:14px;">⚠️</div>
+        <p style="color:#ff6b6b;font-size:14px;margin-bottom:14px;line-height:1.6;">Gagal memuat cuaca.<br>Cek koneksi internet kamu.</p>
+        <button class="btn-sm" style="padding:12px 20px;" onclick="loadWeather()">🔄 COBA LAGI</button>
+      </div>`;
+  }
+}
+
+function getWeatherInfo(code) {
+  const map = {
+    0:{icon:'☀️',desc:'Cerah'},1:{icon:'🌤️',desc:'Cerah Berawan'},2:{icon:'⛅',desc:'Berawan Sebagian'},3:{icon:'☁️',desc:'Mendung'},
+    45:{icon:'🌫️',desc:'Berkabut'},48:{icon:'🌫️',desc:'Kabut Tebal'},
+    51:{icon:'🌦️',desc:'Gerimis Ringan'},53:{icon:'🌦️',desc:'Gerimis'},55:{icon:'🌧️',desc:'Gerimis Lebat'},
+    61:{icon:'🌧️',desc:'Hujan Ringan'},63:{icon:'🌧️',desc:'Hujan'},65:{icon:'⛈️',desc:'Hujan Lebat'},
+    80:{icon:'🌦️',desc:'Hujan Lokal'},81:{icon:'🌧️',desc:'Hujan Sedang'},82:{icon:'⛈️',desc:'Hujan Deras'},
+    95:{icon:'⛈️',desc:'Badai Petir'},96:{icon:'⛈️',desc:'Badai + Hujan Es'},99:{icon:'⛈️',desc:'Badai Petir Hebat'}
+  };
+  return map[code] || { icon:'🌡️', desc:'Cuaca' };
+}
+
+/* ============================================================
+   SETTINGS
+============================================================ */
+function showSettings() {
+  openSub('subSettings');
+  document.getElementById('setUsername').textContent = currentUser.username;
+  document.getElementById('cityDefault').value = citySelected;
+  document.getElementById('qariDefault').value = qariSelected;
+  document.getElementById('oldPw').value = '';
+  document.getElementById('newPw').value = '';
+  document.getElementById('confPw').value = '';
+  document.getElementById('pwMsg').className = 'login-error';
+
+  document.querySelectorAll('.tema-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.tema === temaAktif);
+  });
+
+  document.getElementById('cityDefault').onchange = function() {
+    citySelected = this.value;
+    localStorage.setItem('tidak_city', citySelected);
+    toast('Kota diubah ke ' + citySelected, 'success');
+  };
+  document.getElementById('qariDefault').onchange = function() {
+    qariSelected = this.value;
+    localStorage.setItem('tidak_qari', qariSelected);
+    toast('Qari default diubah', 'success');
+  };
+}
+
+function gantiPassword() {
+  const oldP = document.getElementById('oldPw').value.trim();
+  const newP = document.getElementById('newPw').value.trim();
+  const confP = document.getElementById('confPw').value.trim();
+
+  if (SPECIAL_ACCOUNTS[currentUser.username]) {
+    if (oldP !== SPECIAL_ACCOUNTS[currentUser.username].password) { showErr('pwMsg', '❌ Password lama salah!'); return; }
+    if (newP.length < 4) { showErr('pwMsg', '⚠️ Minimal 4 karakter!'); return; }
+    if (newP !== confP) { showErr('pwMsg', '❌ Konfirmasi tidak cocok!'); return; }
+    SPECIAL_ACCOUNTS[currentUser.username].password = newP;
+    currentUser.password = newP;
+    showErr('pwMsg', '✅ Password diubah!', true);
+    document.getElementById('oldPw').value = '';
+    document.getElementById('newPw').value = '';
+    document.getElementById('confPw').value = '';
+    return;
+  }
+
+  if (!oldP || !newP || !confP) { showErr('pwMsg', '⚠️ Isi semua kolom!'); return; }
+  if (oldP !== currentUser.password) { showErr('pwMsg', '❌ Password lama salah!'); return; }
+  if (newP.length < 4) { showErr('pwMsg', '⚠️ Minimal 4 karakter!'); return; }
+  if (newP !== confP) { showErr('pwMsg', '❌ Konfirmasi tidak cocok!'); return; }
+  if (newP === oldP) { showErr('pwMsg', '⚠️ Sama dengan lama!'); return; }
+
+  const idx = users.findIndex(u => u.username === currentUser.username);
+  if (idx >= 0) {
+    users[idx].password = newP;
+    currentUser.password = newP;
+    localStorage.setItem('tidak_users', JSON.stringify(users));
+    showErr('pwMsg', '✅ Password diubah!', true);
+    document.getElementById('oldPw').value = '';
+    document.getElementById('newPw').value = '';
+    document.getElementById('confPw').value = '';
+    toast('Password berhasil diubah!', 'success');
+  }
+}
+
+/* ============================================================
+   INIT
+============================================================ */
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.subpage.active').forEach(s => s.classList.remove('active'));
+  }
+  // Kalkulator keyboard
+  if (document.getElementById('subCalculator').classList.contains('active')) {
+    const k = e.key;
+    if (/^[0-9]$/.test(k)) calcInput(k);
+    else if (k === '.' || k === ',') calcInput('.');
+    else if (k === '+') calcInput('+');
+    else if (k === '-') calcInput('-');
+    else if (k === '*') calcInput('×');
+    else if (k === '/') { e.preventDefault(); calcInput('÷'); }
+    else if (k === '%') calcInput('%');
+    else if (k === '(' || k === ')') calcInput(k);
+    else if (k === 'Enter' || k === '=') { e.preventDefault(); calcEquals(); }
+    else if (k === 'Backspace') { e.preventDefault(); calcBackspace(); }
+  }
+});
+
+console.log('🛠️ Tools in Damanik Family');
+console.log('By: Rizky Adrian A.');
+console.log('12 Tools | 12 Tema | Special: Rizky / X');
+</script>
+
+</body>
+</html>
